@@ -1,0 +1,36 @@
+{
+  "name": "schools-ai-frontend",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "storybook": "start-storybook -p 9009 --no-manager-cache",
+    "build-storybook": "build-storybook"
+  },
+  "dependencies": {
+    "@types/react-redux": "^7.1.22",
+    "@types/redux": "^3.6.0",
+    "@types/styled-components": "^5.1.22",
+    "next": "12.0.10",
+    "next-redux-wrapper": "^7.0.5",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-redux": "^7.2.6",
+    "redux": "^4.1.2",
+    "styled-components": "^5.3.3"
+  },
+  "devDependencies": {
+    "@storybook/addon-actions": "^6.4.18",
+    "@storybook/addon-controls": "^6.4.18",
+    "@storybook/addon-docs": "^6.4.18",
+    "@storybook/addon-viewport": "^6.4.18",
+    "@storybook/react": "^6.4.18",
+    "@types/node": "17.0.15",
+    "@types/react": "17.0.39",
+    "eslint": "8.8.0",
+    "eslint-config-next": "12.0.10",
+    "typescript": "4.5.5"
+  }
+}
