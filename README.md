@@ -1,1 +1,0 @@
-# schools-ai-frontend
