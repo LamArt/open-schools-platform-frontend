@@ -6,7 +6,7 @@
 
 ## Windows
 * Read this, but download next point: `https://habr.com/ru/company/timeweb/blog/541452/ `
-* Donwload nvm-setup.zip: `https://github.com/coreybutler/nvm-windows/releases`
+* Download nvm-setup.zip: `https://github.com/coreybutler/nvm-windows/releases`
 * Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
 
 # Getting install
