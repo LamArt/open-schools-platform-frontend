@@ -40,3 +40,5 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 ```
+
+the mock api is created in the pages/api folder. (https://nextjs.org/docs/api-routes/introduction)
