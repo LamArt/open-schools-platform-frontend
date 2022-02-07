@@ -4,12 +4,17 @@ import React from 'react'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import Link from 'next/link'
+import { useDispatch } from 'react-redux'
+import { login } from '../redux/asyncActions/user'
 
 const { Header, Footer, Content } = Layout
 
 const Auth: NextPage = () => {
-  const onFinish = (values: any) => {
-    console.log('Success:', values)
+  const dispath = useDispatch()
+  const onFinish = (values: { password: string; username: string }) => {
+    const { password, username } = values
+
+    dispath(login(password, username))
   }
 
   const onFinishFailed = (errorInfo: any) => {
@@ -72,7 +77,7 @@ const Auth: NextPage = () => {
           </Button>
           Или
           <Link href="/registration">
-            <a>Зарегистриуйтесь</a>
+            <a> Зарегистриуйтесь</a>
           </Link>
         </Form.Item>
       </Form>
