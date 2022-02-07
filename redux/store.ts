@@ -1,6 +1,10 @@
-import { createStore } from 'redux'
+import { IUser } from './../types/user'
+import { createStore, AnyAction, Store } from 'redux'
 import rootReducer from './reducers/rootReducer'
+import { createWrapper, Context, HYDRATE } from 'next-redux-wrapper'
 
-const store = createStore(rootReducer)
+// create a makeStore function
+const makeStore = (context: Context) => createStore(rootReducer)
 
-export default store
+// export an assembled wrapper
+export const wrapper = createWrapper<Store<IUser>>(makeStore, { debug: true })
