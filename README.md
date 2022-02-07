@@ -1,9 +1,15 @@
-## Node for development
+# Node for development
 
+## Mac OS
 * Download and install: `https://habr.com/ru/company/timeweb/blog/541452/ `
 * Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
 
-## Getting install
+## Windows
+* Read this, but download next point: `https://habr.com/ru/company/timeweb/blog/541452/ `
+* `https://github.com/coreybutler/nvm-windows/releases`
+* Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
+
+# Getting install
 
 yarn install
 
@@ -16,7 +22,7 @@ npm install --global yarn
 
 ```
 
-## Getting Started
+# Getting Started
 
 yarn dev
 
