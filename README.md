@@ -1,3 +1,8 @@
+## Node for development
+
+* Download and install: `https://habr.com/ru/company/timeweb/blog/541452/ `
+* Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
+
 ## Getting install
 
 yarn install
