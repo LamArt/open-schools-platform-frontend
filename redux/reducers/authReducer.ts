@@ -1,6 +1,6 @@
 import { UserActionType, UserActionEnum, IUser } from '../../types/user'
 
-const initialState = null
+const initialState = { auth: false }
 
 const authReducer = (
   state = initialState,
@@ -8,20 +8,15 @@ const authReducer = (
 ): IUser | null => {
   switch (action.type) {
     case UserActionEnum.LOGIN:
-      return {
-        accessToken: 'string',
-        refreshToken: 'string',
-      }
+      return { auth: true }
     case UserActionEnum.LOGOUT:
-      return {
-        accessToken: 'string',
-        refreshToken: 'string',
-      }
+      return { auth: false }
     case UserActionEnum.REGISTRATION:
-      return {
-        accessToken: 'string',
-        refreshToken: 'string',
-      }
+      return { auth: false, registrationStep: action.payload }
+    case UserActionEnum.ERRORLOGIN:
+      return { auth: false, error: action.payload }
+    case UserActionEnum.ERRORREGISTRATION:
+      return { auth: false, error: action.payload }
     default:
       return state
   }
