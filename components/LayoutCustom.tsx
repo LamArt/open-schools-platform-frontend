@@ -1,54 +1,53 @@
 import Head from 'next/head'
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/router'
 import { Layout } from 'antd'
 import Menu from './Menu'
 import Logo from './Logo'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { verification } from '../redux/asyncActions/user'
+import { IUser } from '../types/user'
 const { Header, Content, Footer, Sider } = Layout
 
-const LayoutCustom : React.FC = ({ children }) => {
-  const router = useRouter()
-
+const LayoutCustom: React.FC = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
 
   return (
     <>
       <Head>
-        <title>IDesk creator</title>
+        <title>Schools.ai</title>
       </Head>
       <Layout style={{ minHeight: '100vh' }}>
-          <Sider
-            collapsible
-            collapsed={collapsed}
-            onCollapse={() => {
-              setCollapsed((state) => !state)
-            }}
-            theme="light"
-          >
-            <div className="logo">
-              <Logo type={collapsed ? 'min' : 'max'} />
-            </div>
-            <Menu/>
-          </Sider>
+        <Sider
+          collapsible
+          collapsed={collapsed}
+          onCollapse={() => {
+            setCollapsed((state) => !state)
+          }}
+          theme="light"
+        >
+          <div className="logo">
+            <Logo min={collapsed} />
+          </div>
+          <Menu />
+        </Sider>
         <Layout className="site-layout">
           <Header
             style={{
-                    background: '#fff',
-                    height: '80px',
-                    padding: '16px',
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                  }
-            }
+              background: '#fff',
+              height: '80px',
+              padding: '16px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
           >
-              <div
-                style={{
-                  background: 'rgba(255, 255, 255, 0.2)',
-                  height: '48px',
-                  marginLeft: '16px',
-                }}
-              >
-              </div>
+            <div
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                height: '48px',
+                marginLeft: '16px',
+              }}
+            ></div>
           </Header>
           <Content style={{ margin: '16px' }}>
             <div
@@ -58,9 +57,7 @@ const LayoutCustom : React.FC = ({ children }) => {
               {children}
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>
-            IDesk ©2021 created by lamart
-          </Footer>
+          <Footer style={{ textAlign: 'center' }}>created by lamart</Footer>
         </Layout>
       </Layout>
       <style jsx>
@@ -68,6 +65,9 @@ const LayoutCustom : React.FC = ({ children }) => {
           .logo {
             height: 48px;
             margin: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background: rgba(255, 255, 255, 0.2);
           }
           .site-layout-background {
@@ -78,6 +78,5 @@ const LayoutCustom : React.FC = ({ children }) => {
     </>
   )
 }
-
 
 export default LayoutCustom

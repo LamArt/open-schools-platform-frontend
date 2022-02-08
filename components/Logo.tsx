@@ -1,62 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
+import logoPic from '../assets/common/pictures/Schools.ai.svg'
+import logoPicMin from '../assets/common/pictures/Schools.ai.min.svg'
+import Image from 'next/image'
 
-const Logo = ({ size = 'sm', type = 'max' }) => {
-  function _addSize() {
-    if (size === 'sm') {
-      return (
-        <style jsx>
-          {`
-            .logo__main-text {
-              font-size: 2rem;
-            }
-            .logo__small-text {
-              font-size: 1.5rem;
-            }
-          `}
-        </style>
-      )
-    } else {
-      return (
-        <style jsx>
-          {`
-            .logo__main-text {
-              font-size: 3rem;
-            }
-            .logo__small-text {
-              font-size: 1.7rem;
-            }
-          `}
-        </style>
-      )
-    }
-  }
-
+const Logo = ({ min = false }) => {
   return (
     <Link href="/">
-      <a className="logo__link">
-        <span className="logo__main-text">
-          {type !== 'min' ? 'IDesk' : 'ID'}
-        </span>
-        {_addSize()}
-        <style jsx>{`
-          .logo__link {
-            min-width: 300px;
-            color: black;
-            white-space: nowrap;
-          }
-          .logo__link > * {
-            display: inline-block;
-          }
-          .logo__main-text {
-            font-weight: bold;
-          }
-          @media screen and (max-width: 300px) {
-            .logo__link {
-              width: 100%;
-            }
-          }
-        `}</style>
+      <a>
+        {min ? (
+          <Image width="40px" height="40px" src={logoPicMin.src} alt="logo" />
+        ) : (
+          <Image width="300px" height="100px" src={logoPic.src} alt="logo" />
+        )}
       </a>
     </Link>
   )
