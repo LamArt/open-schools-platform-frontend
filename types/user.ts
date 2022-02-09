@@ -34,6 +34,7 @@ export interface IUser {
   registrationStep?: number
   error?: Error
   verification?: boolean
+  oldUrl?: String
 }
 
 export type UserActionType =
