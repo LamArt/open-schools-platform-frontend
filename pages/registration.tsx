@@ -3,6 +3,8 @@ import type { NextPage } from 'next'
 import { Form, Input, Button } from 'antd'
 import LayoutAuth from '../components/LayoutAuth'
 
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
+
 const Registration: NextPage = () => {
   const [form] = Form.useForm()
 
@@ -11,25 +13,17 @@ const Registration: NextPage = () => {
   }
 
   return (
-    <LayoutAuth type="registration">
+    <LayoutAuth>
       <Form
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
         form={form}
         name="register"
         onFinish={onFinish}
         scrollToFirstError
         size="middle"
         labelAlign="left"
-        style={{ minWidth: '430px', overflow: 'hidden' }}
       >
         <Form.Item
           name="username"
-          label="Логин"
           rules={[
             {
               required: true,
@@ -38,11 +32,13 @@ const Registration: NextPage = () => {
             },
           ]}
         >
-          <Input />
+          <Input
+            placeholder="Логин"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
         <Form.Item
           name="password"
-          label="Пароль"
           rules={[
             {
               required: true,
@@ -51,12 +47,14 @@ const Registration: NextPage = () => {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password
+            placeholder="Пароль"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
 
         <Form.Item
           name="confirm"
-          label="Повторите пароль"
           dependencies={['password']}
           hasFeedback
           rules={[
@@ -66,7 +64,10 @@ const Registration: NextPage = () => {
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password
+            placeholder="Повторите пароль"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
         <Form.Item wrapperCol={{ span: 8, offset: 10 }}>
           <Button
