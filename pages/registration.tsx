@@ -1,6 +1,7 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import { Form, Input, Button } from 'antd'
+import LayoutAuth from '../components/LayoutAuth'
 
 const Registration: NextPage = () => {
   const [form] = Form.useForm()
@@ -10,16 +11,7 @@ const Registration: NextPage = () => {
   }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        width: '100vw',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <LayoutAuth type="registration">
       <Form
         labelCol={{
           span: 8,
@@ -33,7 +25,7 @@ const Registration: NextPage = () => {
         scrollToFirstError
         size="middle"
         labelAlign="left"
-        style={{ minWidth: '65vh' }}
+        style={{ minWidth: '430px', overflow: 'hidden' }}
       >
         <Form.Item
           name="username"
@@ -48,23 +40,6 @@ const Registration: NextPage = () => {
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name="email"
-          label="e-mail"
-          rules={[
-            {
-              type: 'email',
-              message: 'Введите корректный E-mail!',
-            },
-            {
-              required: true,
-              message: 'Пожалуйста введите свой E-mail!',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
         <Form.Item
           name="password"
           label="Пароль"
@@ -94,12 +69,16 @@ const Registration: NextPage = () => {
           <Input.Password />
         </Form.Item>
         <Form.Item wrapperCol={{ span: 8, offset: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            style={{ background: '#57BBCA' }}
+            type="primary"
+            htmlType="submit"
+          >
             Регистрация
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </LayoutAuth>
   )
 }
 
