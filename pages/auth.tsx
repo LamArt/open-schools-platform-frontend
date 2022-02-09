@@ -1,40 +1,29 @@
 import type { NextPage } from 'next'
-import { Layout } from 'antd'
+
 import React from 'react'
-import { Form, Input, Button, Checkbox } from 'antd'
+import { Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import Link from 'next/link'
-import { useDispatch, useSelector } from 'react-redux'
-import { login } from '../redux/asyncActions/user'
-import { IUser } from '../types/user'
+import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-
-const { Header, Footer, Content } = Layout
+import { login } from '../redux/asyncActions/user'
+import LayoutAuth from '../components/LayoutAuth'
 
 const Auth: NextPage = () => {
   const dispath = useDispatch()
+  const router = useRouter()
 
   const onFinish = (values: { password: string; username: string }) => {
     const { password, username } = values
 
-    dispath(login(password, username))
+    dispath(login(password, username, router))
   }
 
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo)
   }
-
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        width: '100vw',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <LayoutAuth>
       <Form
         name="normal_login"
         className="login-form"
@@ -75,16 +64,20 @@ const Auth: NextPage = () => {
         </Form.Item>
 
         <Form.Item>
-          <Button style={{ display: 'block' }} type="primary" htmlType="submit">
+          <Button
+            style={{ display: 'block', background: '#57BBCA', width: '100%' }}
+            type="primary"
+            htmlType="submit"
+          >
             Войти
           </Button>
           Или
           <Link href="/registration">
-            <a> Зарегистриуйтесь</a>
+            <a style={{ color: '#57BBCA' }}> Зарегистриуйтесь</a>
           </Link>
         </Form.Item>
       </Form>
-    </div>
+    </LayoutAuth>
   )
 }
 

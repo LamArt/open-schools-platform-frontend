@@ -1,6 +1,9 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import { Form, Input, Button } from 'antd'
+import LayoutAuth from '../components/LayoutAuth'
+
+import { UserOutlined, LockOutlined } from '@ant-design/icons'
 
 const Registration: NextPage = () => {
   const [form] = Form.useForm()
@@ -10,34 +13,17 @@ const Registration: NextPage = () => {
   }
 
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        width: '100vw',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <LayoutAuth>
       <Form
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
         form={form}
         name="register"
         onFinish={onFinish}
         scrollToFirstError
         size="middle"
         labelAlign="left"
-        style={{ minWidth: '65vh' }}
       >
         <Form.Item
           name="username"
-          label="Логин"
           rules={[
             {
               required: true,
@@ -46,28 +32,13 @@ const Registration: NextPage = () => {
             },
           ]}
         >
-          <Input />
+          <Input
+            placeholder="Логин"
+            prefix={<UserOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
-        <Form.Item
-          name="email"
-          label="e-mail"
-          rules={[
-            {
-              type: 'email',
-              message: 'Введите корректный E-mail!',
-            },
-            {
-              required: true,
-              message: 'Пожалуйста введите свой E-mail!',
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
         <Form.Item
           name="password"
-          label="Пароль"
           rules={[
             {
               required: true,
@@ -76,12 +47,14 @@ const Registration: NextPage = () => {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password
+            placeholder="Пароль"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
 
         <Form.Item
           name="confirm"
-          label="Повторите пароль"
           dependencies={['password']}
           hasFeedback
           rules={[
@@ -91,15 +64,22 @@ const Registration: NextPage = () => {
             },
           ]}
         >
-          <Input.Password />
+          <Input.Password
+            placeholder="Повторите пароль"
+            prefix={<LockOutlined className="site-form-item-icon" />}
+          />
         </Form.Item>
         <Form.Item wrapperCol={{ span: 8, offset: 10 }}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            style={{ background: '#57BBCA' }}
+            type="primary"
+            htmlType="submit"
+          >
             Регистрация
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </LayoutAuth>
   )
 }
 
