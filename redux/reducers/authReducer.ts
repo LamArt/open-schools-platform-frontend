@@ -14,9 +14,11 @@ const authReducer = (
     case UserActionEnum.REGISTRATION:
       return { auth: false, registrationStep: action.payload }
     case UserActionEnum.ERRORLOGIN:
-      return { auth: false, error: action.payload }
+      return { auth: false, error: action.payload, verification: false }
     case UserActionEnum.ERRORREGISTRATION:
-      return { auth: false, error: action.payload }
+      return { auth: false, error: action.payload, verification: false }
+    case UserActionEnum.VERIFICATION:
+      return { ...state, verification: true }
     default:
       return state
   }
