@@ -4,6 +4,8 @@ import { api } from '../../http/index'
 import { UserActionType, UserActionEnum } from '../../types/user'
 import { IUser } from '../../types/user'
 
+export const noRedirect = ['/auth']
+
 export const login = (
   userName: string,
   password: string,
@@ -59,8 +61,30 @@ export const verification = (router: NextRouter) => {
       if (error instanceof Error) {
         dispatch({ type: UserActionEnum.ERRORLOGIN, payload: error })
       }
+      if (!noRedirect.map((el) => el.includes(router.asPath))) {
+        router.push('/auth')
+      }
+    }
+  }
+}
 
-      router.push('/auth')
+export const registrationStep = (router: NextRouter, phone?: string) => {
+  return async (
+    dispatch: Dispatch<UserActionType>,
+    getState: () => { auth: IUser }
+  ) => {
+    try {
+      const response = await api.post('registration', phone ? { phone } : {})
+      if (response.statusText !== 'OK') {
+        throw new Error(response.data.toString())
+      }
+      dispatch({ type: UserActionEnum.REGISTRATIONSTEP })
+      let step = getState().auth.step?.number
+      router.push(`/registration/${++step}`)
+    } catch (error) {
+      if (error instanceof Error) {
+        dispatch({ type: UserActionEnum.ERRORREGISTRATION, payload: error })
+      }
     }
   }
 }
