@@ -34,7 +34,8 @@ const Auth: NextPage = () => {
 
   return (
     <LayoutAuth>
-      <FinalRegistrForm onFinish={onFinishLogIn} />
+      <LogIn onFinish={onFinishLogIn} />
+      <SignIn onFinish={onFinishSignIn} />
     </LayoutAuth>
   )
 }

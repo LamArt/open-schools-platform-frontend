@@ -15,6 +15,7 @@ interface REGISTRATIONSTEP {
 }
 interface IVERIFICATION {
   type: UserActionEnum.VERIFICATION
+  payload?: String
 }
 interface ILOGIN {
   type: UserActionEnum.LOGIN

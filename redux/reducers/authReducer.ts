@@ -1,3 +1,4 @@
+import { verification } from './../asyncActions/user'
 import { UserActionType, UserActionEnum, IUser } from '../../types/user'
 
 const initialState = { auth: false, step: { number: 0 } }
@@ -40,7 +41,7 @@ const authReducer = (
         verification: false,
       }
     case UserActionEnum.VERIFICATION:
-      return { ...state, verification: true }
+      return { ...state, verification: true, oldUrl: action.payload }
     default:
       return state
   }
