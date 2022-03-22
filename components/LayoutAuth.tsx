@@ -1,20 +1,12 @@
 import { Col, Layout, Row } from 'antd'
 import React from 'react'
-import { useDispatch } from 'react-redux'
-import { login } from '../redux/asyncActions/user'
 import Logo from '../components/Logo'
-import { useRouter } from 'next/router'
-import FormWraper from '../components/formWraper'
 import Image from 'next/image'
 import mainImg from '../assets/common/pictures/authImg.png'
-import typeFormAuth from '../components/formWraper'
 
 const { Header, Footer, Content } = Layout
 
-const LayoutAuth: React.FC<{ type?: typeof typeFormAuth }> = ({
-  children,
-  type = 'auth',
-}) => {
+const LayoutAuth: React.FC = ({ children }) => {
   return (
     <div style={{ overflow: 'hidden' }}>
       <Layout
@@ -41,8 +33,17 @@ const LayoutAuth: React.FC<{ type?: typeof typeFormAuth }> = ({
               </div>
             </Col>
             <Col span={1}></Col>
-            <Col span={7}>
-              <FormWraper type={type}>{children}</FormWraper>
+            <Col
+              span={7}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '3rem',
+                justifyContent: 'space-around',
+                alignItems: 'stretch',
+              }}
+            >
+              {children}
             </Col>
           </Row>
         </Content>

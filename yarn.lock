@@ -208,6 +208,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.4.tgz#fcf7205c25dff795ee79af1e30da2c9790808f11"
   integrity sha512-rZ5drC/jWjrArrS8BR6SIr4cWpW09RNTYt9AMZo3Jwwif+iacXAqgVjm0B0Bv/S1jhDXKHqRVNCbACkJ89RAnQ==
 
+"@types/react-recaptcha-v3@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@types/react-recaptcha-v3/-/react-recaptcha-v3-1.1.2.tgz#b21db83d954cef9cb78792c3965a9eb13da4bfc6"
+  integrity sha512-7nALeZ6DGNDrFE+vmrsaqXCN4slQOrNZlYtalbgjPk4HGu+vTBQXzeehTYjNG6KCS4cZBEIbmrlZNAJ/r3Z/Ow==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.20", "@types/react-redux@^7.1.22":
   version "7.1.22"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.22.tgz#0eab76a37ef477cc4b53665aeaf29cb60631b72a"

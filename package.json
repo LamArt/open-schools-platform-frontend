@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@types/axios": "^0.14.0",
+    "@types/react-recaptcha-v3": "^1.1.2",
     "antd": "^4.18.5",
     "axios": "^0.25.0",
     "next": "12.0.10",

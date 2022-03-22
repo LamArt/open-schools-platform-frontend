@@ -3,9 +3,15 @@ export enum UserActionEnum {
   LOGOUT = 'LOG_OUT',
   LOGIN = 'LOG_IN',
   REGISTRATION = 'REGISTRATION',
+  REGISTRATIONSTEP = 'REGISTRATIONSTEP',
   ERRORREGISTRATION = 'ERROR_REGISTRATION',
   ERRORLOGIN = 'ERROR_LOGIN',
   VERIFICATION = 'VERIFICATION',
+}
+
+interface REGISTRATIONSTEP {
+  type: UserActionEnum.REGISTRATIONSTEP
+  payload?: String
 }
 interface IVERIFICATION {
   type: UserActionEnum.VERIFICATION
@@ -31,7 +37,7 @@ interface ERRORLOGIN {
 
 export interface IUser {
   auth: boolean
-  registrationStep?: number
+  step?: { number: Number; phone?: String }
   error?: Error
   verification?: boolean
   oldUrl?: String
@@ -44,3 +50,4 @@ export type UserActionType =
   | ERRORREGISTRATION
   | ERRORLOGIN
   | IVERIFICATION
+  | REGISTRATIONSTEP
