@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import Link from 'next/link'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { login } from '../redux/asyncActions/user'
 import LayoutAuth from '../components/LayoutAuth'
@@ -15,9 +15,13 @@ const Auth: NextPage = () => {
   const dispath = useDispatch()
   const router = useRouter()
 
-  const onFinishLogIn = (values: { password: string; username: string }) => {
-    const { password, username } = values
-
+  const onFinishLogIn = ({
+    password,
+    username,
+  }: {
+    password: string
+    username: string
+  }) => {
     dispath(login(password, username, router))
   }
 

@@ -1,3 +1,4 @@
+import { Url } from 'url'
 import { NextRouter, withRouter } from 'next/router'
 import { Dispatch } from 'redux'
 import { api } from '../../http/index'
@@ -44,7 +45,10 @@ export const verification = (router: NextRouter) => {
     const acessToken = localStorage.getItem('access')
     const refreshToken = localStorage.getItem('refresh')
     if (!auth || (refreshToken && acessToken)) {
-      dispatch({ type: UserActionEnum.VERIFICATION, payload: router.asPath })
+      dispatch({
+        type: UserActionEnum.VERIFICATION,
+        payload: new URL(router.asPath),
+      })
       try {
         const response = await api.post('verification', {
           acessToken,
@@ -73,19 +77,5 @@ export const registrationStep = (router: NextRouter, phone?: string) => {
   return async (
     dispatch: Dispatch<UserActionType>,
     getState: () => { auth: IUser }
-  ) => {
-    try {
-      const response = await api.post('registration', phone ? { phone } : {})
-      if (response.statusText !== 'OK') {
-        throw new Error(response.data.toString())
-      }
-      dispatch({ type: UserActionEnum.REGISTRATIONSTEP })
-      let step = getState().auth.step?.number
-      router.push(`/registration/${++step}`)
-    } catch (error) {
-      if (error instanceof Error) {
-        dispatch({ type: UserActionEnum.ERRORREGISTRATION, payload: error })
-      }
-    }
-  }
+  ) => {}
 }
