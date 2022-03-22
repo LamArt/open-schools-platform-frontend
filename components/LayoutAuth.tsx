@@ -1,7 +1,6 @@
 import { Col, Layout, Row } from 'antd'
 import React from 'react'
 import Logo from '../components/Logo'
-import FormWraper from './FormWraper'
 import Image from 'next/image'
 import mainImg from '../assets/common/pictures/authImg.png'
 
