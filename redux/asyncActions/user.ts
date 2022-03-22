@@ -72,9 +72,62 @@ export const verification = (router: NextRouter) => {
   }
 }
 
-export const registrationStep = (router: NextRouter, phone?: string) => {
+export const registrationStep = ({
+  router,
+  phone,
+  token,
+}: {
+  router: NextRouter
+  phone?: string
+  token?: string
+}) => {
   return async (
     dispatch: Dispatch<UserActionType>,
     getState: () => { auth: IUser }
-  ) => {}
+  ) => {
+    const state = getState()
+
+    // url transition with token
+    if (
+      token &&
+      (!state.auth.step || (state.auth.step && state.auth.step.step === 0))
+    ) {
+      const response = await api.post('registration-token', { token })
+      const { phone: phoneRes, verification: verificationRes } = response.data
+      if (phoneRes && !verificationRes) {
+        dispatch({
+          type: UserActionEnum.REGISTRATIONSTEP,
+          payload: { step: 1, phone: phoneRes },
+        })
+      }
+      if (phoneRes && verificationRes) {
+        dispatch({
+          type: UserActionEnum.REGISTRATIONSTEP,
+          payload: { step: 2, phone: phoneRes },
+        })
+      }
+    }
+
+    if (
+      phone &&
+      (!state.auth.step || (state.auth.step && state.auth.step.step === 0))
+    ) {
+      dispatch({
+        type: UserActionEnum.REGISTRATIONSTEP,
+        payload: { phone, step: 1 },
+      })
+    }
+
+    if (state.auth.step && state.auth.step.step === 1) {
+      dispatch({
+        type: UserActionEnum.REGISTRATIONSTEP,
+        payload: { step: 2 },
+      })
+    }
+    if (state.auth.step && state.auth.step.step === 2) {
+      dispatch({
+        type: UserActionEnum.REGISTRATIONFINISH,
+      })
+    }
+  }
 }

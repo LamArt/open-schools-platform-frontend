@@ -4,9 +4,10 @@ import React, { useEffect, useState } from 'react'
 import { Form, Input, Button, Checkbox } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import Link from 'next/link'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelectorTypes } from '../redux/tupesHook'
+import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-import { login } from '../redux/asyncActions/user'
+import { login, registrationStep } from '../redux/asyncActions/user'
 import LayoutAuth from '../components/LayoutAuth'
 import FormWraper from '../components/FormWraper'
 import InputPhone from '../components/InputPhone'
@@ -14,6 +15,12 @@ import InputPhone from '../components/InputPhone'
 const Auth: NextPage = () => {
   const dispath = useDispatch()
   const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.token && step === 0) {
+      registrationStep({ router, token: `${router.query.token}` })
+    }
+  })
 
   const onFinishLogIn = ({
     password,
@@ -25,24 +32,55 @@ const Auth: NextPage = () => {
     dispath(login(password, username, router))
   }
 
-  const onFinishSignIn = (values: { password: string; username: string }) => {
-    const { password, username } = values
+  const step = useSelectorTypes((state) =>
+    state.auth.step ? state.auth.step.step : 0
+  )
 
+  const onFinishSignInStep0 = ({ phone }: { phone: string }) => {
+    dispath(registrationStep({ router, phone }))
+  }
+  const onFinishSignInStep1 = ({
+    password,
+    username,
+  }: {
+    password: string
+    username: string
+  }) => {
+    dispath(login(password, username, router))
+  }
+  const onFinishSignInStep2 = ({
+    password,
+    username,
+  }: {
+    password: string
+    username: string
+  }) => {
     dispath(login(password, username, router))
   }
 
-  /* <LogIn onFinish={onFinishLogIn} />
-      <SignIn onFinish={onFinishSignIn} /> 
-       <FinalRegistrForm onFinish={onFinishLogIn} />
-      <SMSForm phone="+79000285080" onFinish={onFinishLogIn} />*/
-
-  return (
-    <LayoutAuth>
-      <LogIn onFinish={onFinishLogIn} />
-      <SignIn onFinish={onFinishSignIn} />
-    </LayoutAuth>
-  )
+  switch (step) {
+    case 0:
+      return (
+        <LayoutAuth>
+          <LogIn onFinish={onFinishLogIn} />
+          <SignIn onFinish={onFinishSignInStep0} />
+        </LayoutAuth>
+      )
+    case 1:
+      return (
+        <LayoutAuth>
+          <SMSForm phone="+79000285080" onFinish={onFinishSignInStep1} />
+        </LayoutAuth>
+      )
+    default:
+      return (
+        <LayoutAuth>
+          <FinalRegistrForm onFinish={onFinishSignInStep2} />
+        </LayoutAuth>
+      )
+  }
 }
+
 const LogIn: React.FC<{
   onFinish: (errorInfo: any) => void
 }> = ({ onFinish }) => {
@@ -90,7 +128,7 @@ const LogIn: React.FC<{
 const SignIn: React.FC<{
   onFinish: (errorInfo: any) => void
 }> = ({ onFinish }) => {
-  const [togleRegistrCheckbox, setTogleRegistrCheckbox] = useState(false)
+  const [togleRegistrCheckbox, setTogleRegistrCheckbox] = useState(true)
   return (
     <FormWraper
       onFinish={onFinish}
@@ -99,7 +137,9 @@ const SignIn: React.FC<{
     >
       <InputPhone />
       <Checkbox
-        onChange={(e) => setTogleRegistrCheckbox(e.target.value)}
+        onChange={(e) => {
+          setTogleRegistrCheckbox(!e.target.checked)
+        }}
         value={togleRegistrCheckbox}
         style={{ marginBottom: '0.75em', fontSize: '1em' }}
       >

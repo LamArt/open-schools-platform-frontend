@@ -2,7 +2,7 @@ import { login } from './../redux/asyncActions/user'
 export enum UserActionEnum {
   LOGOUT = 'LOG_OUT',
   LOGIN = 'LOG_IN',
-  REGISTRATION = 'REGISTRATION',
+  REGISTRATIONFINISH = 'REGISTRATIONFINISH',
   REGISTRATIONSTEP = 'REGISTRATIONSTEP',
   ERRORREGISTRATION = 'ERROR_REGISTRATION',
   ERRORLOGIN = 'ERROR_LOGIN',
@@ -11,7 +11,7 @@ export enum UserActionEnum {
 
 interface REGISTRATIONSTEP {
   type: UserActionEnum.REGISTRATIONSTEP
-  payload?: String
+  payload: { phone?: String; step: Number }
 }
 interface IVERIFICATION {
   type: UserActionEnum.VERIFICATION
@@ -23,9 +23,8 @@ interface ILOGIN {
 interface LOGOUT {
   type: UserActionEnum.LOGOUT
 }
-interface REGISTRATION {
-  type: UserActionEnum.REGISTRATION
-  payload: number
+interface REGISTRATIONFINISH {
+  type: UserActionEnum.REGISTRATIONFINISH
 }
 interface ERRORREGISTRATION {
   type: UserActionEnum.ERRORREGISTRATION
@@ -38,16 +37,20 @@ interface ERRORLOGIN {
 
 export interface IUser {
   auth: boolean
-  step?: { number: Number; phone?: String }
+  step?: { step: Number; phone?: String }
   error?: Error
   verification?: boolean
   oldUrl?: String
 }
 
+export interface IState {
+  auth: IUser
+}
+
 export type UserActionType =
   | ILOGIN
   | LOGOUT
-  | REGISTRATION
+  | REGISTRATIONFINISH
   | ERRORREGISTRATION
   | ERRORLOGIN
   | IVERIFICATION

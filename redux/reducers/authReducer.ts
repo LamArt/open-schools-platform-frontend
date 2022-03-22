@@ -1,7 +1,7 @@
 import { verification } from './../asyncActions/user'
 import { UserActionType, UserActionEnum, IUser } from '../../types/user'
 
-const initialState = { auth: false, step: { number: 0 } }
+const initialState: IUser = { auth: false }
 
 const authReducer = (
   state = initialState,
@@ -12,18 +12,16 @@ const authReducer = (
       return { ...state, auth: true }
     case UserActionEnum.LOGOUT:
       return { ...state, auth: false }
-    case UserActionEnum.REGISTRATION:
+    case UserActionEnum.REGISTRATIONFINISH:
       return {
-        ...state,
         auth: true,
       }
     case UserActionEnum.REGISTRATIONSTEP:
       return {
         ...state,
         step: {
-          ...state.step,
-          number: ++state.step.number,
-          ...(action.payload !== undefined ? { phome: action.payload } : {}),
+          step: action.payload.step,
+          ...(action.payload?.phone ? { phone: action.payload.phone } : {}),
         },
       }
     case UserActionEnum.ERRORLOGIN:
