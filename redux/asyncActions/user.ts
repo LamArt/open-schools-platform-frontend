@@ -1,4 +1,3 @@
-import { Url } from 'url'
 import { NextRouter, withRouter } from 'next/router'
 import { Dispatch } from 'redux'
 import { api } from '../../http/index'
@@ -23,7 +22,7 @@ export const login = (
       const oldUrl = getState().auth.oldUrl
       if (oldUrl) {
         console.log('1')
-        router.push(oldUrl)
+        router.push(`${oldUrl}`)
       } else {
         console.log('2')
         router.push('/')
@@ -47,7 +46,7 @@ export const verification = (router: NextRouter) => {
     if (!auth || (refreshToken && acessToken)) {
       dispatch({
         type: UserActionEnum.VERIFICATION,
-        payload: new URL(router.asPath),
+        payload: router.asPath,
       })
       try {
         const response = await api.post('verification', {

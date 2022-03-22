@@ -1,4 +1,3 @@
-import { Url } from 'url'
 import { login } from './../redux/asyncActions/user'
 export enum UserActionEnum {
   LOGOUT = 'LOG_OUT',
@@ -16,7 +15,7 @@ interface REGISTRATIONSTEP {
 }
 interface IVERIFICATION {
   type: UserActionEnum.VERIFICATION
-  payload?: URL
+  payload?: String
 }
 interface ILOGIN {
   type: UserActionEnum.LOGIN
@@ -42,7 +41,7 @@ export interface IUser {
   step?: { number: Number; phone?: String }
   error?: Error
   verification?: boolean
-  oldUrl?: URL
+  oldUrl?: String
 }
 
 export type UserActionType =
