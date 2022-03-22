@@ -21,10 +21,8 @@ export const login = (
       dispatch({ type: UserActionEnum.LOGIN })
       const oldUrl = getState().auth.oldUrl
       if (oldUrl) {
-        console.log('1')
         router.push(`${oldUrl}`)
       } else {
-        console.log('2')
         router.push('/')
       }
     } catch (error) {

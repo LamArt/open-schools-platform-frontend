@@ -1,12 +1,15 @@
-import { Col, Layout, Row } from 'antd'
-import React from 'react'
+import { Col, Layout, Row, Grid } from 'antd'
+import React, { useRef } from 'react'
 import Logo from '../components/Logo'
 import Image from 'next/image'
 import mainImg from '../assets/common/pictures/authImg.png'
 
 const { Header, Footer, Content } = Layout
+const { useBreakpoint } = Grid
 
 const LayoutAuth: React.FC = ({ children }) => {
+  const screens = useBreakpoint().lg
+
   return (
     <div style={{ overflow: 'hidden' }}>
       <Layout
@@ -20,8 +23,8 @@ const LayoutAuth: React.FC = ({ children }) => {
           <Logo />
         </Header>
         <Content style={{ background: 'white' }}>
-          <Row justify="start" align="middle" gutter={[0, 0]}>
-            <Col span={14}>
+          <Row justify="center" align="middle" gutter={[0, 0]}>
+            <Col style={screens ? {} : { display: 'none' }} span={14}>
               <div style={{ zIndex: 1, position: 'relative' }}>
                 <Image
                   layout="responsive"
@@ -32,15 +35,16 @@ const LayoutAuth: React.FC = ({ children }) => {
                 />
               </div>
             </Col>
-            <Col span={1}></Col>
+            <Col style={screens ? {} : { display: 'none' }} span={1}></Col>
             <Col
-              span={7}
+              span={screens ? 7 : 20}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '3rem',
                 justifyContent: 'space-around',
                 alignItems: 'stretch',
+                ...(screens ? {} : { marginTop: '2rem' }),
               }}
             >
               {children}
@@ -53,6 +57,13 @@ const LayoutAuth: React.FC = ({ children }) => {
           Созданно с любовью в ЛамАрте
         </Footer>
       </Layout>
+      <style jsx>{`
+        @media screen and (max-width: 990px) {
+          .bd-image {
+            display: none;
+          }
+        }
+      `}</style>
     </div>
   )
 }

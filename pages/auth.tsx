@@ -267,7 +267,6 @@ const FinalRegistrForm: React.FC<{
   onFinish: (errorInfo: any) => void
   phone: string
 }> = ({ onFinish, phone }) => {
-  console.log(phone, '_____________________________')
   return (
     <FormWraper title={'Регистрация'} onFinish={onFinish}>
       <InputPhone phone={phone} />
