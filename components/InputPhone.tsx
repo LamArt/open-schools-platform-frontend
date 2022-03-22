@@ -2,7 +2,7 @@ import { Form, Input } from 'antd'
 import React from 'react'
 import { PhoneOutlined } from '@ant-design/icons'
 
-export default function InputPhone() {
+export default function InputPhone({ phone = '' }) {
   let getInputNumbersValue = function (input: EventTarget) {
     // Return stripped input value — just numbers
     return input.value.replace(/\D/g, '')
@@ -77,7 +77,7 @@ export default function InputPhone() {
       name="phone"
       rules={[
         {
-          required: true,
+          required: phone === '',
           message: 'Пожалуйста введите ваш номер телефона',
           whitespace: true,
         },
@@ -89,7 +89,8 @@ export default function InputPhone() {
         onInput={onPhoneInput}
         onKeyDown={onPhoneKeyDown}
         onPaste={onPhonePaste}
-        placeholder="Номер телефона"
+        placeholder={phone === '' ? 'Номер телефона' : phone}
+        disabled={phone !== ''}
         prefix={<PhoneOutlined />}
       />
     </Form.Item>

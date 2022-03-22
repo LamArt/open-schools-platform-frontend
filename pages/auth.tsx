@@ -2,12 +2,18 @@ import type { NextPage } from 'next'
 
 import React, { useEffect, useState } from 'react'
 import { Form, Input, Button, Checkbox } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
 import Link from 'next/link'
 import { useSelectorTypes } from '../redux/tupesHook'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
-import { login, registrationStep } from '../redux/asyncActions/user'
+import {
+  login,
+  registrationStep1,
+  registrationStep2,
+  registrationStep3,
+  registrationTest,
+} from '../redux/asyncActions/user'
 import LayoutAuth from '../components/LayoutAuth'
 import FormWraper from '../components/FormWraper'
 import InputPhone from '../components/InputPhone'
@@ -16,9 +22,11 @@ const Auth: NextPage = () => {
   const dispath = useDispatch()
   const router = useRouter()
 
+  const phone = useSelectorTypes((state) => state.auth.step?.phone)
+
   useEffect(() => {
     if (router.query.token && step === 0) {
-      registrationStep({ router, token: `${router.query.token}` })
+      dispath(registrationTest({ router, token: `${router.query.token}` }))
     }
   })
 
@@ -37,16 +45,10 @@ const Auth: NextPage = () => {
   )
 
   const onFinishSignInStep0 = ({ phone }: { phone: string }) => {
-    dispath(registrationStep({ router, phone }))
+    dispath(registrationStep1({ router, phone }))
   }
-  const onFinishSignInStep1 = ({
-    password,
-    username,
-  }: {
-    password: string
-    username: string
-  }) => {
-    dispath(login(password, username, router))
+  const onFinishSignInStep1 = ({ cod }: { cod: String }) => {
+    dispath(registrationStep2({ cod, router, token: `${router.query.token}` }))
   }
   const onFinishSignInStep2 = ({
     password,
@@ -69,13 +71,13 @@ const Auth: NextPage = () => {
     case 1:
       return (
         <LayoutAuth>
-          <SMSForm phone="+79000285080" onFinish={onFinishSignInStep1} />
+          <SMSForm phone={`${phone}`} onFinish={onFinishSignInStep1} />
         </LayoutAuth>
       )
     default:
       return (
         <LayoutAuth>
-          <FinalRegistrForm onFinish={onFinishSignInStep2} />
+          <FinalRegistrForm phone={`${phone}`} onFinish={onFinishSignInStep2} />
         </LayoutAuth>
       )
   }
@@ -98,7 +100,7 @@ const LogIn: React.FC<{
         ]}
       >
         <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<LockOutlined style={{ color: 'rgba(0, 0, 0, 0.5)' }} />}
           type="password"
           placeholder="Пароль"
         />
@@ -164,14 +166,14 @@ const SMSForm: React.FC<{
 }> = ({ onFinish, phone }) => {
   const [showPhone, setShowPhone] = useState(false)
   const [timerFinal, setTimerFinal] = useState(false)
+  const [cod, setCod] = useState('')
 
   const calcPhone = (phone: string, show: boolean) => {
-    phone = phone.slice(phone[0] === '+' ? 2 : 1)
-    let phone1 = phone.slice(0, 3)
-    let phone2 = phone.slice(3, 6)
-    let phone3 = phone.slice(6, 8)
-    let phone4 = phone.slice(8, 10)
-    return `+7 (${phone1}) ${show ? phone2 : '***'} ${phone3}-${phone4}`
+    const prefix = phone[0] === '+' ? 2 : 1
+    const chankPhone = phone.slice(7 + prefix, 10 + prefix)
+    const phone1 = phone.slice(0, 7 + prefix)
+    const phone2 = phone.slice(10 + prefix)
+    return `${phone1}${show ? chankPhone : '***'}${phone2}`
   }
 
   return (
@@ -203,7 +205,19 @@ const SMSForm: React.FC<{
           },
         ]}
       >
-        <Input placeholder="Код из SMS" />
+        <Input
+          name="cod"
+          value={cod}
+          onChange={(el) => {
+            if (/^[0-9][0-9][0-9][0-9]/.test(el.target.value)) {
+              onFinish({ cod: el.target.value })
+            }
+            if (/^[0-9]?[0-9]?[0-9]?[0-9]?/.test(el.target.value)) {
+              setCod(el.target.value)
+            }
+          }}
+          placeholder="Код из SMS"
+        />
       </Form.Item>
       <p
         onClick={() => {
@@ -227,7 +241,6 @@ const Timer: React.FC<{ onFinish: () => void }> = ({ onFinish }) => {
   const [time, setTime] = useState(60)
   const calcTime = (time: number) => {
     let timeStr = time.toString()
-    console.log(time < 60, timeStr.length)
     switch (timeStr.length) {
       case 1:
         return time <= 0 ? '00:00' : `00:0${timeStr}`
@@ -252,10 +265,28 @@ const Timer: React.FC<{ onFinish: () => void }> = ({ onFinish }) => {
 
 const FinalRegistrForm: React.FC<{
   onFinish: (errorInfo: any) => void
-}> = ({ onFinish }) => {
+  phone: string
+}> = ({ onFinish, phone }) => {
+  console.log(phone, '_____________________________')
   return (
     <FormWraper title={'Регистрация'} onFinish={onFinish}>
-      <InputPhone />
+      <InputPhone phone={phone} />
+      <Form.Item
+        name="user"
+        style={{ marginBottom: '0.75em' }}
+        rules={[
+          {
+            required: true,
+            message: 'Пожалуйста введите Ф. И. О.!',
+          },
+        ]}
+      >
+        <Input
+          prefix={<UserOutlined style={{ color: 'rgba(0, 0, 0, 0.5)' }} />}
+          type="text"
+          placeholder="Ф. И. О."
+        />
+      </Form.Item>
       <Form.Item
         name="password"
         style={{ marginBottom: '0.75em' }}
@@ -267,7 +298,7 @@ const FinalRegistrForm: React.FC<{
         ]}
       >
         <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<LockOutlined style={{ color: 'rgba(0, 0, 0, 0.5)' }} />}
           type="password"
           placeholder="Пароль"
         />
@@ -275,15 +306,27 @@ const FinalRegistrForm: React.FC<{
       <Form.Item
         name="password2"
         style={{ marginBottom: '0.75em' }}
+        dependencies={['password']}
         rules={[
           {
             required: true,
             message: 'Пожалуйста введите пароль!',
           },
+          ({ getFieldValue }) => ({
+            validator(_, value) {
+              if (!value || getFieldValue('password') === value) {
+                return Promise.resolve()
+              }
+
+              return Promise.reject(
+                new Error('The two passwords that you entered do not match!')
+              )
+            },
+          }),
         ]}
       >
         <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
+          prefix={<LockOutlined style={{ color: 'rgba(0, 0, 0, 0.5)' }} />}
           type="password"
           placeholder="Повторите пароль"
         />

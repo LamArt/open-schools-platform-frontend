@@ -1,3 +1,3 @@
 export default function handler(req, res) {
-  res.status(200).json({ phone:'+79000285080})
+  res.status(200).json({ phone: '+79000285120' })
 }

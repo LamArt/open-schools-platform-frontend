@@ -20,6 +20,7 @@ const authReducer = (
       return {
         ...state,
         step: {
+          ...state.step,
           step: action.payload.step,
           ...(action.payload?.phone ? { phone: action.payload.phone } : {}),
         },

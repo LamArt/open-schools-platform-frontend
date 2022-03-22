@@ -72,21 +72,18 @@ export const verification = (router: NextRouter) => {
   }
 }
 
-export const registrationStep = ({
+export const registrationTest = ({
   router,
-  phone,
   token,
 }: {
   router: NextRouter
-  phone?: string
-  token?: string
+  token: string
 }) => {
   return async (
     dispatch: Dispatch<UserActionType>,
     getState: () => { auth: IUser }
   ) => {
     const state = getState()
-
     // url transition with token
     if (
       token &&
@@ -107,27 +104,61 @@ export const registrationStep = ({
         })
       }
     }
+  }
+}
 
-    if (
-      phone &&
-      (!state.auth.step || (state.auth.step && state.auth.step.step === 0))
-    ) {
-      dispatch({
-        type: UserActionEnum.REGISTRATIONSTEP,
-        payload: { phone, step: 1 },
-      })
-    }
+export const registrationStep1 = ({
+  router,
+  phone,
+}: {
+  router: NextRouter
+  phone: string
+}) => {
+  return async (
+    dispatch: Dispatch<UserActionType>,
+    getState: () => { auth: IUser }
+  ) => {
+    const state = getState()
+    const response = await api.post('registration')
+    const { token } = response.data
+    dispatch({
+      type: UserActionEnum.REGISTRATIONSTEP,
+      payload: { phone, step: 1 },
+    })
+    router.push(`/auth?token=${token}`)
+  }
+}
 
-    if (state.auth.step && state.auth.step.step === 1) {
-      dispatch({
-        type: UserActionEnum.REGISTRATIONSTEP,
-        payload: { step: 2 },
-      })
-    }
-    if (state.auth.step && state.auth.step.step === 2) {
-      dispatch({
-        type: UserActionEnum.REGISTRATIONFINISH,
-      })
-    }
+export const registrationStep2 = ({
+  router,
+  cod,
+  token,
+}: {
+  router: NextRouter
+  cod: String
+  token: String
+}) => {
+  return async (
+    dispatch: Dispatch<UserActionType>,
+    getState: () => { auth: IUser }
+  ) => {
+    const state = getState()
+    api.post('token', { token, cod })
+    dispatch({
+      type: UserActionEnum.REGISTRATIONSTEP,
+      payload: { step: 2 },
+    })
+  }
+}
+
+export const registrationStep3 = ({ router }: { router: NextRouter }) => {
+  return async (
+    dispatch: Dispatch<UserActionType>,
+    getState: () => { auth: IUser }
+  ) => {
+    const state = getState()
+    dispatch({
+      type: UserActionEnum.REGISTRATIONFINISH,
+    })
   }
 }
