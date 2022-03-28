@@ -14,6 +14,7 @@ const FormWraper: React.FC<{
         background: '#F0F2F5',
         borderRadius: '20px',
         margin: '0 -3em',
+        maxWidth: 'calc(468px + 6rem)',
       }}
     >
       <Form

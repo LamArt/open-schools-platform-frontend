@@ -37,7 +37,7 @@ const LayoutAuth: React.FC = ({ children }) => {
             </Col>
             <Col style={screens ? {} : { display: 'none' }} span={1}></Col>
             <Col
-              span={screens ? 7 : 20}
+              span={screens ? 7 : 12}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
