@@ -3,17 +3,17 @@ import React from 'react'
 import { PhoneOutlined } from '@ant-design/icons'
 
 export default function InputPhone({ phone = '' }) {
-  let getInputNumbersValue = function (input: EventTarget) {
+  let getInputNumbersValue = function (input: string) {
     // Return stripped input value — just numbers
-    return input.value.replace(/\D/g, '')
+    return input.replace(/\D/g, '')
   }
 
   let onPhonePaste = function (e: React.FormEvent<HTMLInputElement>) {
-    var input = e.target,
-      inputNumbersValue = getInputNumbersValue(input)
-    var pasted = e.clipboardData || window.clipboardData
+    let input = e.currentTarget,
+      inputNumbersValue = getInputNumbersValue(input.value)
+    let pasted = e.clipboardData || window.clipboardData
     if (pasted) {
-      var pastedText = pasted.getData('Text')
+      let pastedText = pasted.getData('Text')
       if (/\D/g.test(pastedText)) {
         // Attempt to paste non-numeric symbol — remove all non-numeric symbols,
         // formatting will be in onPhoneInput handler
@@ -24,8 +24,8 @@ export default function InputPhone({ phone = '' }) {
   }
 
   let onPhoneInput = function (e: React.FormEvent<HTMLInputElement>) {
-    var input = e.target,
-      inputNumbersValue = getInputNumbersValue(input),
+    let input = e.currentTarget,
+      inputNumbersValue = getInputNumbersValue(input.value),
       selectionStart = input.selectionStart,
       formattedInputValue = ''
 
@@ -35,7 +35,7 @@ export default function InputPhone({ phone = '' }) {
 
     if (input.value.length != selectionStart) {
       // Editing in the middle of input, not last symbol
-      if (e.data && /\D/g.test(e.data)) {
+      if (input.value && /\D/g.test(input.value)) {
         // Attempt to input non-numeric symbol
         input.value = inputNumbersValue
       }
@@ -45,7 +45,7 @@ export default function InputPhone({ phone = '' }) {
     if (['7', '8', '9'].indexOf(inputNumbersValue[0]) > -1) {
       if (inputNumbersValue[0] == '9')
         inputNumbersValue = '7' + inputNumbersValue
-      var firstSymbols = inputNumbersValue[0] == '8' ? '8' : '+7'
+      let firstSymbols = inputNumbersValue[0] == '8' ? '8' : '+7'
       formattedInputValue = input.value = firstSymbols + ' '
       if (inputNumbersValue.length > 1) {
         formattedInputValue += '(' + inputNumbersValue.substring(1, 4)
@@ -66,9 +66,9 @@ export default function InputPhone({ phone = '' }) {
   }
   let onPhoneKeyDown = function (e: React.KeyboardEvent<HTMLInputElement>) {
     // Clear input after remove last symbol
-    var inputValue = e.target.value.replace(/\D/g, '')
+    let inputValue = e.currentTarget.value.replace(/\D/g, '')
     if (e.keyCode == 8 && inputValue.length == 1) {
-      e.target.value = ''
+      e.currentTarget.value = ''
     }
   }
   return (
