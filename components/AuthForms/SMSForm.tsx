@@ -9,7 +9,7 @@ const SMSForm: React.FC<{
 }> = ({ onFinish, phone }) => {
   const [showPhone, setShowPhone] = useState(false)
   const [timerFinal, setTimerFinal] = useState(false)
-  const [cod, setCod] = useState('')
+  const [otp, setOtp] = useState('')
 
   const calcPhone = (phone: string, show: boolean) => {
     const prefix = phone[0] === '+' ? 2 : 1
@@ -49,15 +49,12 @@ const SMSForm: React.FC<{
         ]}
       >
         <Input
-          name="cod"
-          value={cod}
+          name="otp"
+          value={otp}
           onChange={(el) => {
-            if (/^[0-9][0-9][0-9][0-9]/.test(el.target.value)) {
-              onFinish({ cod: el.target.value })
-            }
-            if (/^[0-9]?[0-9]?[0-9]?[0-9]?/.test(el.target.value)) {
-              setCod(el.target.value)
-            }
+            const formatOpt = el.target.value.replace(/[^0-9]/g, '').slice(0, 6)
+            formatOpt.length === 6 && onFinish({ otp: formatOpt })
+            setOtp(formatOpt)
           }}
           placeholder="Код из SMS"
         />

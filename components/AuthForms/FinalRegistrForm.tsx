@@ -11,7 +11,7 @@ const FinalRegistrForm: React.FC<{
     <FormWraper title={'Регистрация'} onFinish={onFinish}>
       <InputPhone phone={phone} />
       <Form.Item
-        name="user"
+        name="name"
         style={{ marginBottom: '0.75em' }}
         rules={[
           {

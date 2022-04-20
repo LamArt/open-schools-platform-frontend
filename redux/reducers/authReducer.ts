@@ -1,4 +1,3 @@
-import { verification } from './../asyncActions/user'
 import { UserActionType, UserActionEnum, IUser } from '../../types/user'
 
 const initialState: IUser = { auth: false }
@@ -16,14 +15,27 @@ const authReducer = (
       return {
         auth: true,
       }
-    case UserActionEnum.REGISTRATIONSTEP:
+    case UserActionEnum.REGISTRATIONSTEP1:
       return {
         ...state,
         step: {
           ...state.step,
-          step: action.payload.step,
-          ...(action.payload?.phone ? { phone: action.payload.phone } : {}),
+          step: 2,
+          phone: action.payload.phone,
+          token: action.payload.token,
         },
+      }
+    case UserActionEnum.REGISTRATIONSTEP2:
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          step: 3,
+        },
+      }
+    case UserActionEnum.REGISTRATIONSTEP3:
+      return {
+        auth: true,
       }
     case UserActionEnum.ERRORLOGIN:
       return {

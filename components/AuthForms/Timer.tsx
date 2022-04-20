@@ -4,6 +4,9 @@ const Timer: React.FC<{ onFinish: () => void }> = ({ onFinish }) => {
   const [time, setTime] = useState(60)
   const calcTime = (time: number) => {
     let timeStr = time.toString()
+    if (time <= 0) {
+      return `00:00`
+    }
     switch (timeStr.length) {
       case 1:
         return time <= 0 ? '00:00' : `00:0${timeStr}`

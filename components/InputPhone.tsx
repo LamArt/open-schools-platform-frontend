@@ -1,8 +1,14 @@
 import { Form, Input } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { PhoneOutlined } from '@ant-design/icons'
 
-export default function InputPhone({ phone = '' }) {
+export default function InputPhone({
+  phone = '',
+  setPhoneVal,
+}: {
+  phone?: string
+  setPhoneVal?: (phone: string) => void
+}) {
   let getInputNumbersValue = function (input: string) {
     // Return stripped input value — just numbers
     return input.replace(/\D/g, '')
@@ -84,6 +90,7 @@ export default function InputPhone({ phone = '' }) {
       ]}
     >
       <Input
+        onChange={setPhoneVal ? (el) => setPhoneVal(el.target.value) : () => {}}
         type="tel"
         style={{ width: '100%' }}
         onInput={onPhoneInput}

@@ -3,10 +3,19 @@ import Link from 'next/link'
 import FormWraper from '../FormWraper'
 import InputPhone from '../InputPhone'
 import { LockOutlined } from '@ant-design/icons'
+import { logIn } from '../../redux/asyncActions/user'
 
-const LogIn: React.FC<{
-  onFinish: (errorInfo: any) => void
-}> = ({ onFinish }) => {
+const LogIn: React.FC = () => {
+  const onFinish = ({
+    password,
+    username,
+  }: {
+    password: string
+    username: string
+  }) => {
+    // dispath(login(password, username, router))
+  }
+
   return (
     <FormWraper title={'Авторизация'} onFinish={onFinish}>
       <InputPhone />

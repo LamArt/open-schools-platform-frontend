@@ -5,9 +5,9 @@ import { UserActionType, UserActionEnum } from '../../types/user'
 import { IUser } from '../../types/user'
 
 export const login = (
+  router: NextRouter,
   userName: string,
-  password: string,
-  router: NextRouter
+  password: string
 ) => {
   return async (
     dispatch: Dispatch<UserActionType>,
@@ -67,96 +67,5 @@ export const verification = (router: NextRouter) => {
         }
       }
     }
-  }
-}
-
-export const registrationTest = ({
-  router,
-  token,
-}: {
-  router: NextRouter
-  token: string
-}) => {
-  return async (
-    dispatch: Dispatch<UserActionType>,
-    getState: () => { auth: IUser }
-  ) => {
-    const state = getState()
-    // url transition with token
-    if (
-      token &&
-      (!state.auth.step || (state.auth.step && state.auth.step.step === 0))
-    ) {
-      const response = await api.post('registration-token', { token })
-      const { phone: phoneRes, verification: verificationRes } = response.data
-      if (phoneRes && !verificationRes) {
-        dispatch({
-          type: UserActionEnum.REGISTRATIONSTEP,
-          payload: { step: 1, phone: phoneRes },
-        })
-      }
-      if (phoneRes && verificationRes) {
-        dispatch({
-          type: UserActionEnum.REGISTRATIONSTEP,
-          payload: { step: 2, phone: phoneRes },
-        })
-      }
-    }
-  }
-}
-
-export const registrationStep1 = ({
-  router,
-  phone,
-}: {
-  router: NextRouter
-  phone: string
-}) => {
-  return async (
-    dispatch: Dispatch<UserActionType>,
-    getState: () => { auth: IUser }
-  ) => {
-    const state = getState()
-    const response = await api.post('registration')
-    const { token } = response.data
-    dispatch({
-      type: UserActionEnum.REGISTRATIONSTEP,
-      payload: { phone, step: 1 },
-    })
-    router.push(`/auth?token=${token}`)
-  }
-}
-
-export const registrationStep2 = ({
-  router,
-  cod,
-  token,
-}: {
-  router: NextRouter
-  cod: String
-  token: String
-}) => {
-  return async (
-    dispatch: Dispatch<UserActionType>,
-    getState: () => { auth: IUser }
-  ) => {
-    const state = getState()
-    api.post('token', { token, cod })
-    dispatch({
-      type: UserActionEnum.REGISTRATIONSTEP,
-      payload: { step: 2 },
-    })
-  }
-}
-
-export const registrationStep3 = ({ router }: { router: NextRouter }) => {
-  return async (
-    dispatch: Dispatch<UserActionType>,
-    getState: () => { auth: IUser }
-  ) => {
-    const state = getState()
-    dispatch({
-      type: UserActionEnum.REGISTRATIONFINISH,
-    })
   }
 }

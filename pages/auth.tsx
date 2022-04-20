@@ -1,14 +1,13 @@
 import type { NextPage } from 'next'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelectorTypes } from '../redux/tupesHook'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import {
-  login,
   registrationStep1,
   registrationStep2,
-  registrationTest,
-} from '../redux/asyncActions/user'
+  registrationStep3,
+} from '../redux/asyncActions/registration'
 import LayoutAuth from '../components/LayoutAuth'
 import {
   LogIn,
@@ -16,18 +15,33 @@ import {
   FinalRegistrForm,
   SignIn,
 } from '../components/AuthForms'
+import { initializeApp } from 'firebase/app'
 
 const Auth: NextPage = () => {
   const dispath = useDispatch()
   const router = useRouter()
 
+  const appFirebase = useRef(true)
+  if (appFirebase.current) {
+    const app = initializeApp({
+      apiKey: process.env.NEXT_PUBLIC_apiKey,
+      authDomain: process.env.NEXT_PUBLIC_authDomain,
+      projectId: process.env.NEXT_PUBLIC_projectId,
+      storageBucket: process.env.NEXT_PUBLIC_storageBucket,
+      messagingSenderId: process.env.NEXT_PUBLIC_messagingSenderId,
+      appId: process.env.NEXT_PUBLIC_appId,
+      measurementId: process.env.NEXT_PUBLIC_measurementId,
+    })
+    appFirebase.current = false
+  }
+
   const phone = useSelectorTypes((state) => state.auth.step?.phone)
 
-  useEffect(() => {
-    if (router.query.token && step === 0) {
-      dispath(registrationTest({ router, token: `${router.query.token}` }))
-    }
-  })
+  // useEffect(() => {
+  //   if (router.query.token && step === 0) {
+  //     dispath(registrationTest({ router, token: `${router.query.token}` }))
+  //   }
+  // })
 
   const onFinishLogIn = ({
     password,
@@ -36,47 +50,45 @@ const Auth: NextPage = () => {
     password: string
     username: string
   }) => {
-    dispath(login(password, username, router))
+    // dispath(login(password, username, router))
   }
 
   const step = useSelectorTypes((state) =>
-    state.auth.step ? state.auth.step.step : 0
+    state.auth.step ? state.auth.step.step : 1
   )
 
-  const onFinishSignInStep0 = ({ phone }: { phone: string }) => {
-    dispath(registrationStep1({ router, phone }))
-  }
-  const onFinishSignInStep1 = ({ cod }: { cod: String }) => {
-    dispath(registrationStep2({ cod, router, token: `${router.query.token}` }))
-  }
-  const onFinishSignInStep2 = ({
-    password,
-    username,
-  }: {
-    password: string
-    username: string
-  }) => {
-    dispath(login(password, username, router))
-  }
-
   switch (step) {
-    case 0:
-      return (
-        <LayoutAuth>
-          <LogIn onFinish={onFinishLogIn} />
-          <SignIn onFinish={onFinishSignInStep0} />
-        </LayoutAuth>
-      )
     case 1:
       return (
         <LayoutAuth>
-          <SMSForm phone={`${phone}`} onFinish={onFinishSignInStep1} />
+          <LogIn onFinish={onFinishLogIn} />
+          <SignIn
+            onFinish={({ phone, tokenReCaptha }) =>
+              dispath(registrationStep1({ router, phone, tokenReCaptha }))
+            }
+          />
+        </LayoutAuth>
+      )
+    case 2:
+      return (
+        <LayoutAuth>
+          <SMSForm
+            phone={`${phone}`}
+            onFinish={({ otp }) => {
+              dispath(registrationStep2({ otp }))
+            }}
+          />
         </LayoutAuth>
       )
     default:
       return (
         <LayoutAuth>
-          <FinalRegistrForm phone={`${phone}`} onFinish={onFinishSignInStep2} />
+          <FinalRegistrForm
+            phone={`${phone}`}
+            onFinish={({ password, name }) => {
+              dispath(registrationStep3({ router, name, password }))
+            }}
+          />
         </LayoutAuth>
       )
   }
