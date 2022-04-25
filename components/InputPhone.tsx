@@ -1,103 +1,41 @@
 import { Form, Input } from 'antd'
-import React, { useState } from 'react'
+import React from 'react'
 import { PhoneOutlined } from '@ant-design/icons'
+import MaskedInput from 'antd-mask-input'
 
-export default function InputPhone({
-  phone = '',
-  setPhoneVal,
-}: {
-  phone?: string
-  setPhoneVal?: (phone: string) => void
-}) {
-  let getInputNumbersValue = function (input: string) {
-    // Return stripped input value — just numbers
-    return input.replace(/\D/g, '')
-  }
+interface IINPUTPHONECONTROL {
+  disabled?: false
+  onChange: (phone: string) => void
+}
+interface IINPUTPHONEDISABLED {
+  disabled: true
+  phone: string
+}
+type INPUTPHONE = IINPUTPHONEDISABLED | IINPUTPHONECONTROL
 
-  let onPhonePaste = function (e: React.FormEvent<HTMLInputElement>) {
-    let input = e.currentTarget,
-      inputNumbersValue = getInputNumbersValue(input.value)
-    let pasted = e.clipboardData || window.clipboardData
-    if (pasted) {
-      let pastedText = pasted.getData('Text')
-      if (/\D/g.test(pastedText)) {
-        // Attempt to paste non-numeric symbol — remove all non-numeric symbols,
-        // formatting will be in onPhoneInput handler
-        input.value = inputNumbersValue
-        return
-      }
-    }
-  }
+export default function InputPhone(props: INPUTPHONE) {
+  const phoneMask = '+7 (000) 000 00-00'
+  const mask = React.useMemo(
+    () => [
+      {
+        mask: phoneMask,
+        lazy: true,
+      },
+    ],
+    []
+  )
 
-  let onPhoneInput = function (e: React.FormEvent<HTMLInputElement>) {
-    let input = e.currentTarget,
-      inputNumbersValue = getInputNumbersValue(input.value),
-      selectionStart = input.selectionStart,
-      formattedInputValue = ''
-
-    if (!inputNumbersValue) {
-      return (input.value = '')
-    }
-
-    if (input.value.length != selectionStart) {
-      // Editing in the middle of input, not last symbol
-      if (input.value && /\D/g.test(input.value)) {
-        // Attempt to input non-numeric symbol
-        input.value = inputNumbersValue
-      }
-      return
-    }
-
-    if (['7', '8', '9'].indexOf(inputNumbersValue[0]) > -1) {
-      if (inputNumbersValue[0] == '9')
-        inputNumbersValue = '7' + inputNumbersValue
-      let firstSymbols = inputNumbersValue[0] == '8' ? '8' : '+7'
-      formattedInputValue = input.value = firstSymbols + ' '
-      if (inputNumbersValue.length > 1) {
-        formattedInputValue += '(' + inputNumbersValue.substring(1, 4)
-      }
-      if (inputNumbersValue.length >= 5) {
-        formattedInputValue += ') ' + inputNumbersValue.substring(4, 7)
-      }
-      if (inputNumbersValue.length >= 8) {
-        formattedInputValue += '-' + inputNumbersValue.substring(7, 9)
-      }
-      if (inputNumbersValue.length >= 10) {
-        formattedInputValue += '-' + inputNumbersValue.substring(9, 11)
-      }
-    } else {
-      formattedInputValue = '+' + inputNumbersValue.substring(0, 16)
-    }
-    input.value = formattedInputValue
-  }
-  let onPhoneKeyDown = function (e: React.KeyboardEvent<HTMLInputElement>) {
-    // Clear input after remove last symbol
-    let inputValue = e.currentTarget.value.replace(/\D/g, '')
-    if (e.keyCode == 8 && inputValue.length == 1) {
-      e.currentTarget.value = ''
-    }
-  }
   return (
-    <Form.Item
-      style={{ width: '100%', marginBottom: '0.75em' }}
-      name="phone"
-      rules={[
-        {
-          required: phone === '',
-          message: 'Пожалуйста введите ваш номер телефона',
-          whitespace: true,
-        },
-      ]}
-    >
-      <Input
-        onChange={setPhoneVal ? (el) => setPhoneVal(el.target.value) : () => {}}
+    <Form.Item style={{ width: '100%', marginBottom: '0.75em' }} name="phone">
+      <MaskedInput
+        mask={mask}
         type="tel"
+        onChange={(el) =>
+          props.disabled ? () => {} : props.onChange(el.target.value)
+        }
         style={{ width: '100%' }}
-        onInput={onPhoneInput}
-        onKeyDown={onPhoneKeyDown}
-        onPaste={onPhonePaste}
-        placeholder={phone === '' ? 'Номер телефона' : phone}
-        disabled={phone !== ''}
+        placeholder={props.disabled ? props.phone : 'Номер телефона'}
+        disabled={props.disabled}
         prefix={<PhoneOutlined />}
       />
     </Form.Item>

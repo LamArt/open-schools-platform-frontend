@@ -1,3 +1,4 @@
+import { IASYNCLOGIN } from './user'
 import { NextRouter } from 'next/router'
 import { type } from 'os'
 
@@ -71,11 +72,10 @@ export interface IASYNCREGISTRATIONSTEP3 {
   name: string
   password: string
 }
-
 // Asynk actions type logIn
 export interface IASYNCLOGIN {
   router: NextRouter
-  name: string
+  phone: string
   password: string
 }
 

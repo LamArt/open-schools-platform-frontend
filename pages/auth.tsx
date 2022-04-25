@@ -4,7 +4,6 @@ import { useSelectorTypes } from '../redux/tupesHook'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/router'
 import {
-  registrationStep1,
   registrationStep2,
   registrationStep3,
 } from '../redux/asyncActions/registration'
@@ -43,16 +42,6 @@ const Auth: NextPage = () => {
   //   }
   // })
 
-  const onFinishLogIn = ({
-    password,
-    username,
-  }: {
-    password: string
-    username: string
-  }) => {
-    // dispath(login(password, username, router))
-  }
-
   const step = useSelectorTypes((state) =>
     state.auth.step ? state.auth.step.step : 1
   )
@@ -61,12 +50,8 @@ const Auth: NextPage = () => {
     case 1:
       return (
         <LayoutAuth>
-          <LogIn onFinish={onFinishLogIn} />
-          <SignIn
-            onFinish={({ phone, tokenReCaptha }) =>
-              dispath(registrationStep1({ router, phone, tokenReCaptha }))
-            }
-          />
+          <LogIn />
+          <SignIn />
         </LayoutAuth>
       )
     case 2:

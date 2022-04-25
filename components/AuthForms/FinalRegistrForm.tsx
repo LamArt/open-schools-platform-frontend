@@ -9,7 +9,7 @@ const FinalRegistrForm: React.FC<{
 }> = ({ onFinish, phone }) => {
   return (
     <FormWraper title={'Регистрация'} onFinish={onFinish}>
-      <InputPhone phone={phone} />
+      <InputPhone disabled phone={phone} />
       <Form.Item
         name="name"
         style={{ marginBottom: '0.75em' }}

@@ -3,22 +3,26 @@ import Link from 'next/link'
 import FormWraper from '../FormWraper'
 import InputPhone from '../InputPhone'
 import { LockOutlined } from '@ant-design/icons'
-import { logIn } from '../../redux/asyncActions/user'
+import { login } from '../../redux/asyncActions/user'
+import { useRouter } from 'next/router'
+import { useDispatch } from 'react-redux'
 
 const LogIn: React.FC = () => {
+  const router = useRouter()
+  const dispath = useDispatch()
   const onFinish = ({
     password,
-    username,
+    phone,
   }: {
     password: string
-    username: string
+    phone: string
   }) => {
-    // dispath(login(password, username, router))
+    dispath(login({ password, phone, router }))
   }
 
   return (
     <FormWraper title={'Авторизация'} onFinish={onFinish}>
-      <InputPhone />
+      <InputPhone onChange={() => {}} />
       <Form.Item
         name="password"
         style={{ marginBottom: '0.75em' }}
