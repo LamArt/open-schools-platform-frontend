@@ -34,6 +34,14 @@ const FinalRegistrForm: React.FC<{
             required: true,
             message: 'Пожалуйста введите пароль!',
           },
+          {
+            max: 100,
+            message: 'Превышено максимальное допустимое количество символов',
+          },
+          {
+            min: 6,
+            message: 'Пароль должен быть более 6 символов',
+          },
         ]}
       >
         <Input
@@ -51,15 +59,21 @@ const FinalRegistrForm: React.FC<{
             required: true,
             message: 'Пожалуйста введите пароль!',
           },
+          {
+            max: 100,
+            message: 'Превышено максимальное допустимое количество символов',
+          },
+          {
+            min: 6,
+            message: 'Пароль должен быть более 6 символов',
+          },
           ({ getFieldValue }) => ({
             validator(_, value) {
               if (!value || getFieldValue('password') === value) {
                 return Promise.resolve()
               }
 
-              return Promise.reject(
-                new Error('The two passwords that you entered do not match!')
-              )
+              return Promise.reject(new Error('Пароли должны совподать'))
             },
           }),
         ]}

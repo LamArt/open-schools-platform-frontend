@@ -26,7 +26,17 @@ export default function InputPhone(props: INPUTPHONE) {
   )
 
   return (
-    <Form.Item style={{ width: '100%', marginBottom: '0.75em' }} name="phone">
+    <Form.Item
+      style={{ width: '100%', marginBottom: '0.75em' }}
+      name="phone"
+      rules={[
+        {
+          required: true,
+          message: 'Пожалуйста введите номер!',
+        },
+        { min: 18, message: 'Пожалуйста введите номер!' },
+      ]}
+    >
       <MaskedInput
         mask={mask}
         type="tel"

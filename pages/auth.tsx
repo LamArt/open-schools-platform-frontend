@@ -36,12 +36,6 @@ const Auth: NextPage = () => {
 
   const phone = useSelectorTypes((state) => state.auth.step?.phone)
 
-  // useEffect(() => {
-  //   if (router.query.token && step === 0) {
-  //     dispath(registrationTest({ router, token: `${router.query.token}` }))
-  //   }
-  // })
-
   const step = useSelectorTypes((state) =>
     state.auth.step ? state.auth.step.step : 1
   )

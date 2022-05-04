@@ -3,10 +3,10 @@ import { useState, useRef, useEffect } from 'react'
 import FormWraper from '../FormWraper'
 import InputPhone from '../InputPhone'
 import { getAuth, RecaptchaVerifier } from 'firebase/auth'
-import usePhone from '../../hooks/phone'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { registrationStep1 } from '../../redux/asyncActions/registration'
+import { IState } from '../../types/user'
 
 const SignIn: React.FC = () => {
   const [togleRegistrCheckbox, setTogleRegistrCheckbox] = useState(true)
@@ -15,6 +15,7 @@ const SignIn: React.FC = () => {
   const [tokenReCaptha, setTokenReCaptha] = useState('')
   const dispath = useDispatch()
   const router = useRouter()
+  const error = useSelector((state: IState) => state.auth.errorSignIn)
 
   useEffect(() => {
     const auth = getAuth()
@@ -45,6 +46,15 @@ const SignIn: React.FC = () => {
         description="Моментальная регистрация"
       >
         <InputPhone disabled={false} onChange={(el: string) => setPhone(el)} />
+        {error ? (
+          <span
+            style={{ color: '#ff4d4f', fontSize: '14px', lineHeight: '1.5715' }}
+          >
+            Аккаунта с таким номером телефона уже существует
+          </span>
+        ) : (
+          ''
+        )}
         <Checkbox
           onChange={(e) => {
             setTogleRegistrCheckbox(!e.target.checked)

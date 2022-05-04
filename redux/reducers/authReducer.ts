@@ -41,7 +41,7 @@ const authReducer = (
       return {
         ...state,
         auth: false,
-        error: action.payload,
+        errorLogIn: action.payload,
         verification: false,
       }
     case UserActionEnum.ERRORREGISTRATION:

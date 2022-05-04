@@ -5,11 +5,15 @@ import InputPhone from '../InputPhone'
 import { LockOutlined } from '@ant-design/icons'
 import { login } from '../../redux/asyncActions/user'
 import { useRouter } from 'next/router'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { IState } from '../../types/user'
+import { useState } from 'react'
 
 const LogIn: React.FC = () => {
   const router = useRouter()
   const dispath = useDispatch()
+  const error = useSelector((state: IState) => state.auth.errorLogIn)
+
   const onFinish = ({
     password,
     phone,
@@ -39,6 +43,15 @@ const LogIn: React.FC = () => {
           placeholder="Пароль"
         />
       </Form.Item>
+      {error ? (
+        <span
+          style={{ color: '#ff4d4f', fontSize: '14px', lineHeight: '1.5715' }}
+        >
+          Аккаунта с таким номером телефона и паролем не существует
+        </span>
+      ) : (
+        ''
+      )}
       <div style={{ marginTop: '1.5em' }}>
         <Button
           style={{

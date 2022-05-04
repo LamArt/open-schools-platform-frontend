@@ -8,6 +8,7 @@ const FormWraper: React.FC<{
   title?: string
   description?: string
 }> = ({ title = '', onFinish, children, onFinishFailed, description = '' }) => {
+  const [form] = Form.useForm()
   return (
     <figure
       style={{
@@ -18,10 +19,14 @@ const FormWraper: React.FC<{
       }}
     >
       <Form
+        form={form}
         initialValues={{
           remember: true,
         }}
-        onFinish={onFinish}
+        onFinish={(el) => {
+          form.resetFields()
+          onFinish(el)
+        }}
         onFinishFailed={onFinishFailed}
         style={{ position: 'relative', maxWidth: '468px', margin: '3em 3em' }}
       >

@@ -1,4 +1,3 @@
-import { IASYNCLOGIN } from './user'
 import { NextRouter } from 'next/router'
 import { type } from 'os'
 
@@ -83,7 +82,8 @@ export interface IASYNCLOGIN {
 export interface IUser {
   auth: boolean
   step?: { step: number; phone?: string; token?: string }
-  error?: string
+  errorSignIn?: string
+  errorLogIn?: string
   verification?: boolean
   oldUrl?: string
 }
