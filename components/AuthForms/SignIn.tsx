@@ -36,7 +36,7 @@ const SignIn: React.FC = () => {
     if (tokenReCaptha !== '' && phone.length === 18) {
       dispath(registrationStep1({ router, phone, tokenReCaptha }))
     }
-  }, [tokenReCaptha, phone])
+  }, [tokenReCaptha, phone, router, dispath])
 
   return (
     <>

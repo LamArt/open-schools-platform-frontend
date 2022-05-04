@@ -24,7 +24,7 @@ const Timer: React.FC<{ onFinish: () => void }> = ({ onFinish }) => {
       } else onFinish()
     }
     setTimeout(tick, 1000)
-  }, [])
+  }, [onFinish, time])
 
   return <>{calcTime(time)}</>
 }

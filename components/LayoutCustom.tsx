@@ -1,12 +1,8 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { Layout } from 'antd'
 import Menu from './Menu'
 import Logo from './Logo'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { verification } from '../redux/asyncActions/user'
-import { IUser } from '../types/user'
+import { useState } from 'react'
 const { Header, Content, Footer, Sider } = Layout
 
 const LayoutCustom: React.FC = ({ children }) => {
