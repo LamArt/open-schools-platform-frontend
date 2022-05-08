@@ -29,7 +29,7 @@ export default function InputPhone(props: INPUTPHONE) {
     <Form.Item
       style={{ width: '100%', marginBottom: '0.75em' }}
       name="phone"
-      rules={[
+      rules={props.disabled ? [] :[
         {
           required: true,
           message: 'Пожалуйста введите номер!',

@@ -10,8 +10,24 @@ import { useRouter } from 'next/router'
 
 const { SubMenu } = Menu
 
+const menuList = [
+  {
+    url: '',
+    name: 'Главная',
+    icon:<UserOutlined />
+  }, {
+    url: "employee",
+    name: "сотрудники", 
+    icon: <TeamOutlined />
+  }, {
+    url: "settings",
+    name: "Настройки",
+    icon: <SettingOutlined />
+  }]
+
 const MenuCustom = () => {
   const router = useRouter()
+  console.log(router.asPath)
   return (
     <>
       <Menu
@@ -21,16 +37,11 @@ const MenuCustom = () => {
         onClick={(e) => {
           e.key === 'group' ? router.push(`/`) : router.push(`/${e.key}`)
         }}
+        selectedKeys={menuList.map((el) => el.url).filter((el) => el === ""  ? router.asPath === "/" : router.asPath.includes(el))}
       >
-        <Menu.Item key="group" icon={<TeamOutlined />}>
-          Группы
-        </Menu.Item>
-        <Menu.Item key="license" icon={<FileProtectOutlined />}>
-          Лицензии
-        </Menu.Item>
-        <Menu.Item key="settings" icon={<SettingOutlined />}>
-          Настройки
-        </Menu.Item>
+        {menuList.map((el)=> <Menu.Item key={el.url} icon={el.icon}>
+          {el.name}
+        </Menu.Item>)  }
       </Menu>
     </>
   )
