@@ -1,89 +1,24 @@
-import { NextRouter, withRouter } from 'next/router'
 import { Dispatch } from 'redux'
 import { api } from '../../http/index'
-import { UserActionType, UserActionEnum } from '../../types/user'
-import { IUser } from '../../types/user'
+import { UserActionType, UserActionEnum, IASYNCLOGIN } from '../../types/user'
 
-export const noRedirect = ['/auth']
-
-export const login = (
-  userName: string,
-  password: string,
-  router: NextRouter
-) => {
-  return async (
-    dispatch: Dispatch<UserActionType>,
-    getState: () => { auth: IUser }
-  ) => {
-    try {
-      const response = await api.post('auth', { userName, password })
-      const { access, refresh } = response.data
-      localStorage.setItem('access', access)
-      localStorage.setItem('refresh', refresh)
-      dispatch({ type: UserActionEnum.LOGIN })
-      const oldUrl = getState().auth.oldUrl
-      if (oldUrl) {
-        console.log('1')
-        router.push(oldUrl)
-      } else {
-        console.log('2')
-        router.push('/')
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        dispatch({ type: UserActionEnum.ERRORLOGIN, payload: error })
-      }
-    }
-  }
-}
-
-export const verification = (router: NextRouter) => {
+export const login = ({ router, phone, password }: IASYNCLOGIN) => {
   return async (dispatch: Dispatch<UserActionType>) => {
-    dispatch({ type: UserActionEnum.VERIFICATION })
     try {
-      const acessToken = localStorage.getItem('access')
-      const refreshToken = localStorage.getItem('refresh')
-      if (!acessToken || !refreshToken) {
-        throw new Error(`${acessToken ? 'acess' : 'refresh'} token not found`)
-      }
-      const response = await api.post('verification', {
-        acessToken,
-        refreshToken,
+      let formatPhone = `${phone.replace(/[^0-9]/g, '')}`
+      formatPhone =
+        formatPhone[0] === '8' ? formatPhone : `+7${formatPhone.slice(1)}`
+      const response = await api.post('/user-management/auth/jwt/login/', {
+        phone: formatPhone,
+        password,
       })
-      if (response.statusText !== 'OK') {
-        throw response.data
-      }
+      const { token } = response.data
+      localStorage.setItem('token', token)
       dispatch({ type: UserActionEnum.LOGIN })
-      if (router.asPath === '/auth') {
-        router.push('/')
-      }
+      router.push('/')
     } catch (error) {
       if (error instanceof Error) {
-        dispatch({ type: UserActionEnum.ERRORLOGIN, payload: error })
-      }
-      if (!noRedirect.map((el) => el.includes(router.asPath))) {
-        router.push('/auth')
-      }
-    }
-  }
-}
-
-export const registrationStep = (router: NextRouter, phone?: string) => {
-  return async (
-    dispatch: Dispatch<UserActionType>,
-    getState: () => { auth: IUser }
-  ) => {
-    try {
-      const response = await api.post('registration', phone ? { phone } : {})
-      if (response.statusText !== 'OK') {
-        throw new Error(response.data.toString())
-      }
-      dispatch({ type: UserActionEnum.REGISTRATIONSTEP })
-      let step = getState().auth.step?.number
-      router.push(`/registration/${++step}`)
-    } catch (error) {
-      if (error instanceof Error) {
-        dispatch({ type: UserActionEnum.ERRORREGISTRATION, payload: error })
+        dispatch({ type: UserActionEnum.ERRORLOGIN, payload: error.message })
       }
     }
   }

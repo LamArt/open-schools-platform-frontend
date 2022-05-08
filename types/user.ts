@@ -1,53 +1,93 @@
-import { login } from './../redux/asyncActions/user'
+import { NextRouter } from 'next/router'
+import { type } from 'os'
+
+// Actions types
 export enum UserActionEnum {
   LOGOUT = 'LOG_OUT',
   LOGIN = 'LOG_IN',
-  REGISTRATION = 'REGISTRATION',
-  REGISTRATIONSTEP = 'REGISTRATIONSTEP',
+  REGISTRATIONFINISH = 'REGISTRATIONFINISH',
+  REGISTRATIONSTEP1 = 'REGISTRATIONSTEP1',
+  REGISTRATIONSTEP2 = 'REGISTRATIONSTEP2',
+  REGISTRATIONSTEP3 = 'REGISTRATIONSTEP3',
   ERRORREGISTRATION = 'ERROR_REGISTRATION',
   ERRORLOGIN = 'ERROR_LOGIN',
   VERIFICATION = 'VERIFICATION',
 }
 
-interface REGISTRATIONSTEP {
-  type: UserActionEnum.REGISTRATIONSTEP
-  payload?: String
+interface IREGISTRATIONSTEP1 {
+  type: UserActionEnum.REGISTRATIONSTEP1
+  payload: { phone: string; token: string }
+}
+interface IREGISTRATIONSTEP2 {
+  type: UserActionEnum.REGISTRATIONSTEP2
+}
+interface IREGISTRATIONSTEP3 {
+  type: UserActionEnum.REGISTRATIONSTEP3
 }
 interface IVERIFICATION {
   type: UserActionEnum.VERIFICATION
+  payload?: string
 }
 interface ILOGIN {
   type: UserActionEnum.LOGIN
 }
-interface LOGOUT {
+interface ILOGOUT {
   type: UserActionEnum.LOGOUT
 }
-interface REGISTRATION {
-  type: UserActionEnum.REGISTRATION
-  payload: number
+interface IREGISTRATIONFINISH {
+  type: UserActionEnum.REGISTRATIONFINISH
 }
-interface ERRORREGISTRATION {
+interface IERRORREGISTRATION {
   type: UserActionEnum.ERRORREGISTRATION
-  payload: Error
+  payload: string
 }
-interface ERRORLOGIN {
+interface IERRORLOGIN {
   type: UserActionEnum.ERRORLOGIN
-  payload: Error
+  payload: string
 }
-
-export interface IUser {
-  auth: boolean
-  step?: { number: Number; phone?: String }
-  error?: Error
-  verification?: boolean
-  oldUrl?: String
-}
-
 export type UserActionType =
   | ILOGIN
-  | LOGOUT
-  | REGISTRATION
-  | ERRORREGISTRATION
-  | ERRORLOGIN
+  | ILOGOUT
+  | IREGISTRATIONFINISH
+  | IERRORREGISTRATION
+  | IERRORLOGIN
   | IVERIFICATION
-  | REGISTRATIONSTEP
+  | IREGISTRATIONSTEP1
+  | IREGISTRATIONSTEP2
+  | IREGISTRATIONSTEP3
+
+// Asynk actions type registration
+
+export interface IASYNCREGISTRATIONSTEP1 {
+  router: NextRouter
+  phone: string
+  tokenReCaptha: string
+}
+export interface IASYNCREGISTRATIONSTEP2 {
+  otp: string
+}
+export interface IASYNCREGISTRATIONSTEP3 {
+  router: NextRouter
+  name: string
+  password: string
+}
+// Asynk actions type logIn
+export interface IASYNCLOGIN {
+  router: NextRouter
+  phone: string
+  password: string
+}
+
+//State
+export interface IUser {
+  auth: boolean
+  step?: { step: number; phone?: string; token?: string }
+  errorSignIn?: string
+  errorLogIn?: string
+  verification?: boolean
+  oldUrl?: string
+}
+
+export interface IState {
+  auth: IUser
+}

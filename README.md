@@ -1,13 +1,15 @@
 # Node for development
 
 ## Mac OS
-* Download and install: `https://habr.com/ru/company/timeweb/blog/541452/ `
-* Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
+
+- Download and install: `https://habr.com/ru/company/timeweb/blog/541452/ `
+- Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
 
 ## Windows
-* Read this, but download next point: `https://habr.com/ru/company/timeweb/blog/541452/ `
-* Download nvm-setup.zip: `https://github.com/coreybutler/nvm-windows/releases`
-* Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
+
+- Read this, but download next point: `https://habr.com/ru/company/timeweb/blog/541452/ `
+- Download nvm-setup.zip: `https://github.com/coreybutler/nvm-windows/releases`
+- Set require version: `nvm install 16.13.1 && nvm use 16.13.1`
 
 # Getting install
 
@@ -30,11 +32,6 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
 ## Learn More
 

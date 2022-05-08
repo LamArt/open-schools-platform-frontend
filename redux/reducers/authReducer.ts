@@ -1,6 +1,6 @@
 import { UserActionType, UserActionEnum, IUser } from '../../types/user'
 
-const initialState = { auth: false, step: { number: 0 } }
+const initialState: IUser = { auth: false }
 
 const authReducer = (
   state = initialState,
@@ -11,36 +11,48 @@ const authReducer = (
       return { ...state, auth: true }
     case UserActionEnum.LOGOUT:
       return { ...state, auth: false }
-    case UserActionEnum.REGISTRATION:
+    case UserActionEnum.REGISTRATIONFINISH:
       return {
-        ...state,
         auth: true,
       }
-    case UserActionEnum.REGISTRATIONSTEP:
+    case UserActionEnum.REGISTRATIONSTEP1:
       return {
         ...state,
         step: {
           ...state.step,
-          number: ++state.step.number,
-          ...(action.payload !== undefined ? { phome: action.payload } : {}),
+          step: 2,
+          phone: action.payload.phone,
+          token: action.payload.token,
         },
+      }
+    case UserActionEnum.REGISTRATIONSTEP2:
+      return {
+        ...state,
+        step: {
+          ...state.step,
+          step: 3,
+        },
+      }
+    case UserActionEnum.REGISTRATIONSTEP3:
+      return {
+        auth: true,
       }
     case UserActionEnum.ERRORLOGIN:
       return {
         ...state,
         auth: false,
-        error: action.payload,
+        errorLogIn: action.payload,
         verification: false,
       }
     case UserActionEnum.ERRORREGISTRATION:
       return {
         ...state,
         auth: false,
-        error: action.payload,
+        errorSignIn: action.payload,
         verification: false,
       }
     case UserActionEnum.VERIFICATION:
-      return { ...state, verification: true }
+      return { ...state, verification: true, oldUrl: action.payload }
     default:
       return state
   }
