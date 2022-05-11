@@ -25,11 +25,11 @@ function EmployList({findText}:{findText:string}) {
       searchedColumn: dataIndex,
     });
   };
-  const getColumnSearchProps = (dataIndex:TabteValues) => ({
+  const getColumnSearchProps = (dataIndex:TabteValues, title:string) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }:FilterDropdownProps):ReactNode => (
       <div style={{ padding: 8 }}>
         <Input
-          placeholder={`Поиск по ${dataIndex}`}
+          placeholder={`Поиск по ${title}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
@@ -52,7 +52,7 @@ function EmployList({findText}:{findText:string}) {
       
       sorter: (a: { name:string }, b: { name:string }) => a.name.localeCompare(b.name),
       width: '30%',
-      ...getColumnSearchProps('name')
+      ...getColumnSearchProps('name', "ФИО")
     },
     {
       title: 'Должность',
@@ -69,14 +69,14 @@ function EmployList({findText}:{findText:string}) {
     {
       title: 'Телефон',
       dataIndex: 'phone',
-      ...getColumnSearchProps('phone'),
+      ...getColumnSearchProps('phone', "Телефон"),
       sorter: (a: { phone: string; }, b: { phone: string; }) => a.phone.localeCompare(b.phone),
       width: '30%',
     },
     {
       title: 'Эл. почта',
       dataIndex: 'email',
-      ...getColumnSearchProps('email'),
+      ...getColumnSearchProps('email', 'Эл. почта'),
       sorter: (a: { email: string; }, b: { email: string; }) => a.email.localeCompare(b.email),
       width: '30%',
     },

@@ -17,7 +17,7 @@ const menuList = [
     icon:<UserOutlined />
   }, {
     url: "employee",
-    name: "сотрудники", 
+    name: "Cотрудники", 
     icon: <TeamOutlined />
   }, {
     url: "settings",
