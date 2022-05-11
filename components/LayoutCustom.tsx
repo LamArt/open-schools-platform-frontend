@@ -17,6 +17,7 @@ const LayoutCustom: React.FC = ({ children }) => {
         <Sider
           collapsible
           collapsed={collapsed}
+          style={{borderRight: " 1px solid #f0f0f0"}}
           onCollapse={() => {
             setCollapsed((state) => !state)
           }}
@@ -27,7 +28,7 @@ const LayoutCustom: React.FC = ({ children }) => {
           </div>
           <Menu />
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{background: '#fff',}}>
           <Header
             style={{
               background: '#fff',
@@ -53,7 +54,7 @@ const LayoutCustom: React.FC = ({ children }) => {
               {children}
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>created by lamart</Footer>
+          <Footer style={{ textAlign: 'center', background: '#fff', }}>created by lamart</Footer>
         </Layout>
       </Layout>
       <style jsx>

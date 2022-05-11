@@ -27,7 +27,6 @@ const menuList = [
 
 const MenuCustom = () => {
   const router = useRouter()
-  console.log(router.asPath)
   return (
     <>
       <Menu
