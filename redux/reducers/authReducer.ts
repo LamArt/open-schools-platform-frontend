@@ -10,7 +10,7 @@ const authReducer = (
     case UserActionEnum.LOGIN:
       return { ...state, auth: true }
     case UserActionEnum.LOGOUT:
-      return { ...state, auth: false }
+      return {auth: false }
     case UserActionEnum.REGISTRATIONFINISH:
       return {
         auth: true,

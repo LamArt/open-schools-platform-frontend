@@ -1,89 +1,56 @@
+import { useEffect, useState } from 'react';
 import axios from 'axios'
 
+
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
+
+export const apiAuth = axios.create({
+  baseURL: BASE_URL,
+})
+
+apiAuth.interceptors.request.use((config) => {
+  config.headers = {
+    Authorization: 'Bearer ' + localStorage.getItem('token')
+  }
+  return config
+})
+
+enum MetodsRequest {
+  GET = "get",
+  POST = "post",
+  PUT = "put",
+  DELETE = "delete",
+}
+interface IUseAuthApi {
+  url:string,
+  method?:MetodsRequest,
+  data?:Object
+}
+interface IStateRequest<T> {
+  data: T | undefined,
+  loading: boolean,
+  error: null | Error
+}
+
+export const useAuthApi = <T>(config:IUseAuthApi) => {
+  const [state, setState] = useState<IStateRequest<T>>({data:undefined, loading:true, error: null })
+  useEffect(() => {
+    (async () => {
+      const dataRequest = await apiAuth({method: MetodsRequest.GET, ...config })
+      if (dataRequest.status < 300 && dataRequest.status >= 200){
+        setState(el => ({...el, data: dataRequest.data,loading: false}))
+      } else {
+        setState(el => ({...el, error: new Error(dataRequest.data),loading: false}))
+      }
+    })()
+  }, [])
+
+  return state
+}
+
+ 
 
 export const api = axios.create({
   baseURL: BASE_URL,
 })
 
-api.interceptors.request.use((config) => {
-  config.headers!.Authorization = 'Token ' + localStorage.getItem('access')
-  return config
-})
-
-api.interceptors.response.use(
-  (config) => {
-    return config
-  },
-  async (error) => {
-    const originalConfig = error.config
-    if (
-      error.response.status == 401 &&
-      error.config &&
-      !error.config._isRetry
-    ) {
-      originalConfig._isRetry = true
-      try {
-        const response = await axios.post(
-          `${BASE_URL}/auth/jwt/refresh/`,
-          { refresh: localStorage.getItem('refresh') },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-        localStorage.setItem('access', response.data.access)
-
-        return api.request(originalConfig)
-      } catch (e) {}
-    }
-    throw error
-  }
-)
-
-export const apiNoAuth = axios.create({
-  baseURL: BASE_URL,
-})
-
-export const apiAuthOrNoAuth = axios.create({ baseURL: BASE_URL })
-
-apiAuthOrNoAuth.interceptors.request.use((config) => {
-  config.headers!.Authorization = 'Token ' + localStorage.getItem('access')
-  return config
-})
-
-apiAuthOrNoAuth.interceptors.response.use(
-  (config) => {
-    return config
-  },
-  async (error) => {
-    const originalConfig = error.config
-    if (
-      error.response.status == 401 &&
-      error.config &&
-      !error.config._isRetry
-    ) {
-      originalConfig._isRetry = true
-      try {
-        const response = await axios.post(
-          `${BASE_URL}/auth/jwt/refresh/`,
-          { refresh: localStorage.getItem('refresh') },
-          {
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
-        localStorage.setItem('access', response.data.access)
-        return apiAuthOrNoAuth.request(originalConfig)
-      } catch (e) {
-        try {
-          delete originalConfig.headers.Authorization
-          return apiNoAuth.request(originalConfig)
-        } catch (e) {}
-      }
-    }
-    throw error
-  }
-)

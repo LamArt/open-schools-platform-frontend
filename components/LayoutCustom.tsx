@@ -3,10 +3,15 @@ import { Layout } from 'antd'
 import Menu from './Menu'
 import Logo from './Logo'
 import { useState } from 'react'
+import { useAuthApi } from '../http'
+import { UserAvatar } from './UserAvatar'
 const { Header, Content, Footer, Sider } = Layout
 
 const LayoutCustom: React.FC = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
+
+  
+
 
   return (
     <>
@@ -38,13 +43,7 @@ const LayoutCustom: React.FC = ({ children }) => {
               justifyContent: 'flex-end',
             }}
           >
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.2)',
-                height: '48px',
-                marginLeft: '16px',
-              }}
-            ></div>
+            <UserAvatar/>
           </Header>
           <Content style={{ margin: '16px' }}>
             <div
