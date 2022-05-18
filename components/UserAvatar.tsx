@@ -1,16 +1,14 @@
 import { Avatar, Spin, Popover, Button } from 'antd'
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useAuthApi } from '../http'
 import {RestFilled} from "@ant-design/icons"
 import { useDispatch } from 'react-redux'
 import { logout } from '../redux/asyncActions/user'
 import { useRouter } from 'next/router'
+import { IUserData, UserDataActionEnum } from '../types/user'
 
-interface IUserAvatar {
-  "phone": string,
-  "name": string
-}
+
 
 export const UserAvatar = () => {
   const dispatch =  useDispatch()
@@ -19,9 +17,20 @@ export const UserAvatar = () => {
     dispatch(logout(router))
   }}><RestFilled /> Выход</p>)
 
-  const {data, loading, error} = useAuthApi<IUserAvatar>({url: '/user-management/auth/me/'})
+  const {data, loading, error} = useAuthApi<IUserData>({url: '/user-management/auth/me/'})
   
-  return !data ? <Spin/> : (
+  useEffect(() => {
+    if (data) {
+      dispatch({type: UserDataActionEnum.FINALFETCH, payload: data})
+    } else if (loading) {
+      dispatch({type: UserDataActionEnum.LOADINGDATA})
+    } else if (error) {
+      dispatch({type: UserDataActionEnum.ERRORFRTCH, payload: error})
+    }
+  }, [data, loading, error, dispatch])
+  
+
+  return loading ? <Spin/> : data ? (
     <Popover content={menuContent}>
       <Button style={{border: "none", padding: "0", height: '60px',}}>
         <Link href="/settings" >
@@ -47,5 +56,5 @@ export const UserAvatar = () => {
           </Link>
         </Button>
       </Popover>
-)
+) : <></>
 }

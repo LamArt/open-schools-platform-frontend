@@ -1,5 +1,8 @@
+import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from 'axios'
+import { logout } from '../redux/asyncActions/user';
 
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL
@@ -32,17 +35,26 @@ interface IStateRequest<T> {
   error: null | Error
 }
 
-export const useAuthApi = <T>(config:IUseAuthApi) => {
+export const useAuthApi = <T>(config:IUseAuthApi, callback?: (data:T) => void  ) => {
+  const dispatch =  useDispatch()
+  const router = useRouter()
   const [state, setState] = useState<IStateRequest<T>>({data:undefined, loading:true, error: null })
   useEffect(() => {
-    (async () => {
-      const dataRequest = await apiAuth({method: MetodsRequest.GET, ...config })
-      if (dataRequest.status < 300 && dataRequest.status >= 200){
-        setState(el => ({...el, data: dataRequest.data,loading: false}))
-      } else {
-        setState(el => ({...el, error: new Error(dataRequest.data),loading: false}))
+    apiAuth({method: MetodsRequest.GET, ...config }).then(res => {
+      setState(el => ({...el, data: res.data,loading: false}))
+      if (callback) {
+        callback(res.data)
       }
-    })()
+    },(error) => {
+      if (error.response && error.response.status == 403) {
+        console.error(error.data)
+        setState(el => ({...el, error: new Error(error.data),loading: false}))
+        dispatch(logout(router))
+      } else {
+        setState(el => ({...el, error: new Error(error.data),loading: false}))
+      }
+      return error.data
+    })
   }, [])
 
   return state
