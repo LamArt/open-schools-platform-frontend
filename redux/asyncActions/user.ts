@@ -1,3 +1,4 @@
+import { NextRouter } from 'next/router';
 import { Dispatch } from 'redux'
 import { api } from '../../http/index'
 import { UserActionType, UserActionEnum, IASYNCLOGIN } from '../../types/user'
@@ -15,11 +16,20 @@ export const login = ({ router, phone, password }: IASYNCLOGIN) => {
       const { token } = response.data
       localStorage.setItem('token', token)
       dispatch({ type: UserActionEnum.LOGIN })
+      
       router.push('/')
     } catch (error) {
       if (error instanceof Error) {
         dispatch({ type: UserActionEnum.ERRORLOGIN, payload: error.message })
       }
     }
+  }
+}
+
+export const logout = (router: NextRouter) => {
+  return async (dispatch: Dispatch<UserActionType>) => {
+      localStorage.removeItem('token')
+      dispatch({ type: UserActionEnum.LOGOUT })
+      router.push('/auth')
   }
 }

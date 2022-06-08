@@ -17,7 +17,7 @@ const menuList = [
     icon:<UserOutlined />
   }, {
     url: "employee",
-    name: "сотрудники", 
+    name: "Cотрудники", 
     icon: <TeamOutlined />
   }, {
     url: "settings",
@@ -27,7 +27,6 @@ const menuList = [
 
 const MenuCustom = () => {
   const router = useRouter()
-  console.log(router.asPath)
   return (
     <>
       <Menu

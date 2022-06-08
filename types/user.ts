@@ -1,5 +1,4 @@
 import { NextRouter } from 'next/router'
-import { type } from 'os'
 
 // Actions types
 export enum UserActionEnum {
@@ -88,6 +87,31 @@ export interface IUser {
   oldUrl?: string
 }
 
-export interface IState {
-  auth: IUser
+
+export interface IUserData {
+  name: string, 
+  phone: string, 
+  id: string | undefined, 
+  loading: boolean,
+  error:string
+} 
+
+export enum UserDataActionEnum {
+  FINALFETCH= 'FINALFETCH',
+  LOADINGDATA='LOADINGDATA',
+  ERRORFRTCH='ERRORFRTCH'
+}
+
+export type UserDataActionType = IUserDataADDDATAAction | IUserDataLOADINGDATAAction | IUserDataERRORFRTCHAction
+
+export interface IUserDataADDDATAAction {
+  type: UserDataActionEnum.FINALFETCH,
+  payload: IUserData
+}
+export interface IUserDataLOADINGDATAAction {
+  type: UserDataActionEnum.LOADINGDATA,
+}
+export interface IUserDataERRORFRTCHAction {
+  type: UserDataActionEnum.ERRORFRTCH,
+  payload: string
 }

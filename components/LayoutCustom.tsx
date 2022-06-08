@@ -3,11 +3,11 @@ import { Layout } from 'antd'
 import Menu from './Menu'
 import Logo from './Logo'
 import { useState } from 'react'
+import { UserAvatar } from './UserAvatar'
 const { Header, Content, Footer, Sider } = Layout
 
 const LayoutCustom: React.FC = ({ children }) => {
   const [collapsed, setCollapsed] = useState(false)
-
   return (
     <>
       <Head>
@@ -17,6 +17,7 @@ const LayoutCustom: React.FC = ({ children }) => {
         <Sider
           collapsible
           collapsed={collapsed}
+          style={{borderRight: " 1px solid #f0f0f0"}}
           onCollapse={() => {
             setCollapsed((state) => !state)
           }}
@@ -27,7 +28,7 @@ const LayoutCustom: React.FC = ({ children }) => {
           </div>
           <Menu />
         </Sider>
-        <Layout className="site-layout">
+        <Layout className="site-layout" style={{background: '#fff',}}>
           <Header
             style={{
               background: '#fff',
@@ -37,23 +38,17 @@ const LayoutCustom: React.FC = ({ children }) => {
               justifyContent: 'flex-end',
             }}
           >
-            <div
-              style={{
-                background: 'rgba(255, 255, 255, 0.2)',
-                height: '48px',
-                marginLeft: '16px',
-              }}
-            ></div>
+            <UserAvatar/>
           </Header>
           <Content style={{ margin: '16px' }}>
             <div
               className="site-layout-background"
-              style={{ padding: 24, minHeight: 360 }}
+              style={{ minHeight: 360 }}
             >
               {children}
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>created by lamart</Footer>
+          <Footer style={{ textAlign: 'center', background: '#fff', }}>created by lamart</Footer>
         </Layout>
       </Layout>
       <style jsx>

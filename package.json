@@ -8,9 +8,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/debounce": "^1.2.1",
     "antd": "^4.18.5",
     "antd-mask-input": "^2.0.7",
     "axios": "^0.25.0",
+    "debounce": "^1.2.1",
     "firebase": "^9.6.10",
     "next": "12.0.10",
     "next-redux-wrapper": "^7.0.5",

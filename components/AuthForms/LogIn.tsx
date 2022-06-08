@@ -7,7 +7,6 @@ import { login } from '../../redux/asyncActions/user'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
 import { IState } from '../../types/user'
-import { useState } from 'react'
 
 const LogIn: React.FC = () => {
   const router = useRouter()
