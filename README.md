@@ -1,5 +1,7 @@
 # Node for development
 
+next.js site server Schools.ai
+
 ## Mac OS
 
 - Download and install: `https://habr.com/ru/company/timeweb/blog/541452/ `
