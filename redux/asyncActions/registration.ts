@@ -2,11 +2,11 @@ import { Dispatch } from 'redux'
 import { api } from '../../http/index'
 import { UserActionType, UserActionEnum } from '../../types/user'
 import {
-  IState,
   IASYNCREGISTRATIONSTEP1,
   IASYNCREGISTRATIONSTEP2,
   IASYNCREGISTRATIONSTEP3,
 } from '../../types/user'
+import { RootState as IState } from '../../redux/reducers/rootReducer'
 
 export const registrationStep1 = ({
   router,

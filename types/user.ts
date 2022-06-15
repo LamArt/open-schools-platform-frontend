@@ -87,31 +87,33 @@ export interface IUser {
   oldUrl?: string
 }
 
-
 export interface IUserData {
-  name: string, 
-  phone: string, 
-  id: string | undefined, 
-  loading: boolean,
-  error:string
-} 
-
-export enum UserDataActionEnum {
-  FINALFETCH= 'FINALFETCH',
-  LOADINGDATA='LOADINGDATA',
-  ERRORFRTCH='ERRORFRTCH'
+  name: string
+  phone: string
+  id: string | undefined
+  loading: boolean
+  error: string
 }
 
-export type UserDataActionType = IUserDataADDDATAAction | IUserDataLOADINGDATAAction | IUserDataERRORFRTCHAction
+export enum UserDataActionEnum {
+  FINALFETCH = 'FINALFETCH',
+  LOADINGDATA = 'LOADINGDATA',
+  ERRORFRTCH = 'ERRORFRTCH',
+}
+
+export type UserDataActionType =
+  | IUserDataADDDATAAction
+  | IUserDataLOADINGDATAAction
+  | IUserDataERRORFRTCHAction
 
 export interface IUserDataADDDATAAction {
-  type: UserDataActionEnum.FINALFETCH,
+  type: UserDataActionEnum.FINALFETCH
   payload: IUserData
 }
 export interface IUserDataLOADINGDATAAction {
-  type: UserDataActionEnum.LOADINGDATA,
+  type: UserDataActionEnum.LOADINGDATA
 }
 export interface IUserDataERRORFRTCHAction {
-  type: UserDataActionEnum.ERRORFRTCH,
+  type: UserDataActionEnum.ERRORFRTCH
   payload: string
 }

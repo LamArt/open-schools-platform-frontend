@@ -6,7 +6,7 @@ import { LockOutlined } from '@ant-design/icons'
 import { login } from '../../redux/asyncActions/user'
 import { useRouter } from 'next/router'
 import { useDispatch, useSelector } from 'react-redux'
-import { IState } from '../../types/user'
+import { RootState as IState } from '../../redux/reducers/rootReducer'
 
 const LogIn: React.FC = () => {
   const router = useRouter()
