@@ -5,11 +5,9 @@ import UserDataReucer from './UserDataReducer'
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  userData: UserDataReucer
+  userData: UserDataReucer,
 })
 
 export default rootReducer
 
-export type RootState = {auth:IUser | null, userData: IUserData}
-
- 
+export type RootState = { auth: IUser; userData: IUserData }

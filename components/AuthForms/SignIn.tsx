@@ -6,7 +6,7 @@ import { getAuth, RecaptchaVerifier } from 'firebase/auth'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import { registrationStep1 } from '../../redux/asyncActions/registration'
-import { IState } from '../../types/user'
+import { RootState as IState } from '../../redux/reducers/rootReducer'
 
 const SignIn: React.FC = () => {
   const [togleRegistrCheckbox, setTogleRegistrCheckbox] = useState(true)
