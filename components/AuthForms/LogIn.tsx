@@ -63,7 +63,7 @@ const LogIn: React.FC = () => {
         >
           Войти
         </Button>
-        <Link href="/registration">
+        <Link href="/reset-password">
           <a style={{ color: '#57BBCA', paddingLeft: '24px' }}>
             Забыли пароль?
           </a>
