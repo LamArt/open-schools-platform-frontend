@@ -31,6 +31,12 @@ const menuList = [
         name: "Настройки",
         icon: <SettingOutlined />,
     },
+
+    {
+        url: "students",
+        name: "Ученики",
+        icon: <TeamOutlined />,
+    },
 ];
 
 const MenuCustom = () => {
