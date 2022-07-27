@@ -22,6 +22,11 @@ const menuList = [
         icon: <CommentOutlined />,
     },
     {
+        url: "students",
+        name: "Ученики",
+        icon: <TeamOutlined />,
+    },
+    {
         url: "employee",
         name: "Cотрудники",
         icon: <TeamOutlined />,
@@ -30,12 +35,6 @@ const menuList = [
         url: "settings",
         name: "Настройки",
         icon: <SettingOutlined />,
-    },
-
-    {
-        url: "students",
-        name: "Ученики",
-        icon: <TeamOutlined />,
     },
 ];
 
