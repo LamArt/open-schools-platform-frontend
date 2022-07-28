@@ -2,6 +2,8 @@ import { Button, Col, Input, Pagination, Row } from "antd";
 import React, { useState } from "react";
 import StudentList from "../components/StudentList";
 import LayoutCustom from "../components/LayoutCustom";
+import MyCircles from "../components/CirclesComponents/MyCircles";
+import StudentForm from "../components/StudentForm";
 
 function Students() {
     const [text, setText] = useState("");
@@ -49,7 +51,7 @@ function Students() {
                     <StudentList findText={text} />
                 </Col>
             </Row>
-            
+        <StudentForm/>    
         </LayoutCustom>
     );
 }
