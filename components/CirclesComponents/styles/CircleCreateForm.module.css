@@ -1,0 +1,14 @@
+.container{
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid black;
+    border-radius: 4px;
+    padding: 20px;
+}
+
+.title {
+    margin-bottom: 12px;
+    font-size: 20px;
+    color: #1890ff;
+    user-select: none;
+}
